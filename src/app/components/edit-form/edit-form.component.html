@@ -1,0 +1,182 @@
+ <div fxLayout="row">
+<div *ngIf="formGroup && !submitted" [formGroup]="formGroup" id="newForm"> 
+
+
+   <mat-card
+    id="newForm"
+    *ngIf="formGroup && !submitted"
+    [formGroup]="formGroup"
+    fxFlex="100%"
+  > 
+  <mat-card-title>
+    <mat-toolbar>Edit Form</mat-toolbar>
+  </mat-card-title>
+    <mat-card-content>  
+      <!-- < mat-accordion> 
+        <mat-expansion-panel>
+          <mat-expansion-panel-header> -->
+            <!-- <mat-panel-title> -->
+               <p *ngIf="formGroup.value.name || formGroup.value.description">
+                Form: {{ formGroup.value.name }}
+              </p>
+              <p *ngIf="!formGroup.value.name && !formGroup.value.description">
+                Form: (Nameless Form - Click to name)
+              </p> 
+            <!-- </mat-panel-title> -->
+            <!-- <mat-panel-description> -->
+              <p>{{ formGroup.value.description }}</p>
+            <!-- </mat-panel-description> -->
+          <!-- </mat-expansion-panel-header> -->
+
+           <div fxLayout="column">
+            <mat-form-field fxFlex>
+              <input
+                matInput
+                placeholder="Form Name"
+                formControlName="name"
+                type="text"
+                onClick="this.select();"
+              />
+            </mat-form-field>
+
+            <mat-form-field fxFlex>
+              <textarea
+                matInput
+                placeholder="Form Description"
+                formControlName="description"
+              ></textarea>
+            </mat-form-field>
+          </div>
+<!-- </mat-expansion-panel>
+       <mat-accordion> -->
+
+     <br />
+
+      <mat-tab-group
+        id="tabs"
+        formArrayName="tabs"
+        [(selectedIndex)]="selectedIndex"
+      >
+        <mat-tab
+          *ngFor="let tab of formGroup.controls.tabs.controls; let i = index"
+        >
+          <ng-template mat-tab-label>
+            <span>{{ tab.value.name }}</span>
+            <button
+              matTooltip="Remove Tab"
+              mat-button
+              class="close"
+              [disabled]="formGroup.controls.tabs.controls.length <= 1"
+              (click)="confirmDialogue('delete', 'Delete Tab', 'Are you sure you want to delete?', i)"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+          </ng-template>
+          <div *ngIf="selectedIndex == i">
+            <app-edit-tab [group]="tab" [index]="'tabs,' + i"></app-edit-tab>
+          </div>
+        </mat-tab>
+        <mat-tab disabled>
+          <ng-template mat-tab-label>
+            <button
+              class="new"
+              matTooltip="Add Tab"
+              [matTooltipPosition]="'right'"
+              mat-raised-button
+              color="primary"
+              (click)="confirmDialogue('add', 'Add Tab', 'Add new tab?')"
+            >
+              <mat-icon>add</mat-icon>
+            </button>
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+    <mat-card-actions>
+      <div fxFlex></div>
+      <button mat-raised-button (click)="openDialog()">Preview</button>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="confirmDialogue('save', 'Update Form', 'Are you sure you wish to save this changes?', formGroup.getRawValue())"
+      >
+        Update Form
+      </button>
+     </mat-card-actions> 
+  </mat-card> 
+</div>
+</div> 
+
+<!-- <div fxLayout="row" style="width: 100%;">
+  <div *ngIf="formGroup && !submitted" [formGroup]="formGroup" style="width: 100%;"> 
+    <mat-card
+      id="newForm"
+      *ngIf="formGroup && !submitted"
+      [formGroup]="formGroup"
+      fxFlex="100%"
+    > 
+  <mat-card-title>
+    <h4>Edit Form</h4>
+  </mat-card-title>
+  <mat-card-content>  
+    <mat-tree [dataSource]="treeDataSource" [treeControl]="treeControl" class="example-tree">
+      <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+        <button mat-icon-button disabled></button>
+          {{node.displayName}}
+            <ng-container *ngIf="node.type === 'column' && !node.isLoading">
+                <app-edit-column [group]="node.formGroup"></app-edit-column>
+            </ng-container>
+      </mat-tree-node>
+      <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+        <li>
+          <div class="mat-tree-node">
+            <button mat-icon-button  matTreeNodeToggle>
+              <mat-icon class="mat-icon-rtl-mirror">
+                {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+              </mat-icon>
+            </button>
+            <ng-container *ngIf="node.type !== 'tab'">
+                {{node.displayName}} 
+            </ng-container>
+            <ng-container *ngIf="node.type === 'tab'">
+                {{node.displayName}} 
+                <button mat-icon-button (click)="removeTab(node.id)" matTooltip="Delete Tab">
+                  <mat-icon>close</mat-icon>
+                </button>
+            </ng-container>
+          </div>
+            <mat-progress-bar 
+              *ngIf="node.isLoading"
+              mode="indeterminate"
+              class="example-tree-progress-bar">
+            </mat-progress-bar>
+            <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
+              <ng-container *ngIf="node.type === 'tab' && !node.isLoading">
+                <app-edit-tab [group]="node.formGroup"></app-edit-tab>
+              </ng-container>
+              <ng-container *ngIf="node.type === 'section' && !node.isLoading">
+                <app-edit-section [group]="node.formGroup"></app-edit-section>
+              </ng-container>
+              <ng-container *ngIf="node.type === 'row' && !node.isLoading">
+                <app-edit-row [group]="node.formGroup"></app-edit-row>
+              </ng-container> 
+            </ul>
+        </li>
+      </mat-tree-node>
+    </mat-tree>
+    <button mat-button (click)="addTab()">Add Tab</button>
+  </mat-card-content>
+  <mat-card-actions>
+    <div fxFlex></div>
+      <button mat-raised-button (click)="openDialog()">Preview</button>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="save(formGroup.getRawValue())"
+      >
+      Update Form
+      </button>
+  </mat-card-actions>
+</mat-card>
+</div>
+</div>   -->

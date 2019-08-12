@@ -1,0 +1,48 @@
+
+<mat-card mat-dialog-content>
+  <mat-card-title>
+    <mat-toolbar>Notes For: {{questionGroup.value.key}}</mat-toolbar>
+  </mat-card-title>
+
+  <mat-card *ngIf="disabledQG">
+
+    <app-view-input-type [group]="disabledQG" [disabledNotes]="true" [disabled]="true" [index]="[]"></app-view-input-type>
+  </mat-card>
+
+  <br>
+  <div>
+    Comments:
+  </div>
+
+
+  <div class="note" fxLayout="row" *ngFor="let note of questionGroup.controls.notes.controls; let i=index" fxLayoutGap="20px" fxLayoutAlign="space-around center">
+      <div fxFlex>
+        <p>{{note.value.text}}</p>
+        <p>- {{note.value.commenterID}}, {{note.value.date | date}}</p>
+      </div>
+      <div fxFlex="nogrow" [formGroup]="note">
+        <mat-checkbox formControlName="resolved">Resolved</mat-checkbox>
+      </div>
+
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="20px" [formGroup]="noteFG">
+      <mat-form-field fxFlex>
+        <textarea matInput placeholder="Add Note" formControlName="note"></textarea>
+      </mat-form-field>
+
+      <div fxFlex="100px">
+        <button id="submit-note" mat-raised-button color="primary" (click)="addNote()" [disabled]="noteFG.invalid">Submit</button>
+      </div>
+
+    </div>
+
+
+
+</mat-card>
+
+<div mat-dialog-actions>
+  <div fxFlex></div>
+  <button mat-raised-button (click)="onNoClick()">Close</button>
+</div>
+
+

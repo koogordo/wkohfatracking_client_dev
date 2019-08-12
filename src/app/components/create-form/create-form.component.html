@@ -1,0 +1,163 @@
+<div fxLayout="row" *ngIf="formGroup && !submitted">
+  <mat-card [formGroup]="formGroup" fxFlex="100%">
+
+    <mat-card-title>
+      <mat-toolbar>
+        <mat-toolbar-row>
+          <span>Create New Form</span>
+        </mat-toolbar-row>
+      </mat-toolbar>
+
+      <div id="breadcrumb" fxLayout="row" fxLayoutGap="10px">
+
+        <button mat-raised-button (click)="openMain()" fxFlex="none" fxFlexAlign="center">{{formGroup.value.name}}</button>
+
+        <fa name="chevron-right" fxFlex="none" fxFlexAlign="center"></fa>
+
+        <button mat-raised-button [matMenuTriggerFor]="tabMenu" fxFlex="none" fxFlexAlign="center">
+          <span *ngIf="isNumber(indices.tabIndex)">
+            <span *ngIf="formGroup.value.tabs[indices.tabIndex].name">{{formGroup.value.tabs[indices.tabIndex].name}}</span>
+            <span *ngIf="!formGroup.value.tabs[indices.tabIndex].name">(Nameless Tab)</span>
+
+          </span>
+          <span *ngIf="!isNumber(indices.tabIndex)">(Select Tab)</span>
+        </button>
+
+        <fa name="chevron-right" fxFlex="none" fxFlexAlign="center" *ngIf="isNumber(indices.tabIndex)"></fa>
+
+        <button mat-raised-button [matMenuTriggerFor]="sectMenu" fxFlex="none" fxFlexAlign="center" *ngIf="isNumber(indices.tabIndex)">
+          <span *ngIf="isNumber(indices.sectionIndex)">
+            <span *ngIf="formGroup.value.tabs[indices.tabIndex].sections[indices.sectionIndex].name">{{formGroup.value.tabs[indices.tabIndex].sections[indices.sectionIndex].name}}</span>
+            <span *ngIf="!formGroup.value.tabs[indices.tabIndex].sections[indices.sectionIndex].name">(Nameless
+              Section)</span>
+          </span>
+          <span *ngIf="!isNumber(indices.sectionIndex)">(Select Section)</span>
+        </button>
+
+        <fa name="chevron-right" fxFlex="none" fxFlexAlign="center" *ngIf="isNumber(indices.sectionIndex)"></fa>
+
+        <button mat-raised-button [matMenuTriggerFor]="rowMenu" fxFlex="none" fxFlexAlign="center" *ngIf="isNumber(indices.sectionIndex)">
+          <span *ngIf="isNumber(indices.rowIndex)">Row {{indices.rowIndex + 1}}</span>
+          <span *ngIf="!isNumber(indices.rowIndex)">(Select Row)</span>
+        </button>
+
+        <mat-menu #tabMenu="matMenu">
+          <button mat-menu-item *ngFor="let tab of formGroup.controls.tabs.controls; let i=index" (click)="openTab(i)">
+            <span *ngIf="tab.value.name">{{tab.value.name}}</span>
+            <span *ngIf="!tab.value.name">(Nameless Tab)</span>
+
+          </button>
+          <button mat-menu-item (click)="addTab()">
+            <mat-icon>add</mat-icon>
+            Add Tab
+          </button>
+        </mat-menu>
+
+
+        <mat-menu #sectMenu="matMenu">
+          <div *ngIf="isNumber(indices.tabIndex)">
+            <button mat-menu-item *ngFor="let section of formGroup.controls.tabs.controls[indices.tabIndex].controls.sections.controls; let i=index"
+              (click)="openSection(i)">
+              <span *ngIf="section.value.name">{{section.value.name}}</span>
+              <span *ngIf="!section.value.name">(Nameless Section)</span>
+            </button>
+          </div>
+          <button mat-menu-item (click)="addSection()">
+            <mat-icon>add</mat-icon>
+            Add Section
+          </button>
+        </mat-menu>
+
+        <mat-menu #rowMenu="matMenu">
+          <div *ngIf="isNumber(indices.sectionIndex)">
+            <button mat-menu-item *ngFor="let row of formGroup.controls.tabs.controls[indices.tabIndex].controls.sections.controls[indices.sectionIndex].controls.rows.controls; let i=index"
+              (click)="openRow(i)">Row {{i + 1}}</button>
+          </div>
+          <button mat-menu-item (click)="addRow()">
+            <mat-icon>add</mat-icon>
+            Add Row
+          </button>
+        </mat-menu>
+
+
+      </div>
+
+
+
+    </mat-card-title>
+
+    <mat-card-content>
+
+      <div *ngIf="isNumber(indices.tabIndex)">
+        <div *ngIf="isNumber(indices.sectionIndex)">
+
+          <div *ngIf="isNumber(indices.rowIndex)">
+            <app-create-row [indices]="indices" [group]="formGroup.controls.tabs.controls[indices.tabIndex].controls.sections.controls[indices.sectionIndex].controls.rows.controls[indices.rowIndex]"></app-create-row>
+          </div>
+
+          <div *ngIf="!isNumber(indices.rowIndex)">
+            <app-create-section [indices]="indices" [group]="formGroup.controls.tabs.controls[indices.tabIndex].controls.sections.controls[indices.sectionIndex]"></app-create-section>
+          </div>
+
+        </div>
+        <div *ngIf="!isNumber(indices.sectionIndex)">
+          <app-create-tab [indices]="indices" [group]="formGroup.controls.tabs.controls[indices.tabIndex]"></app-create-tab>
+        </div>
+      </div>
+
+
+      <div *ngIf="!isNumber(indices.tabIndex)" fxLayout="row" fxLayoutGap="48px" fxLayoutWrap>
+        <div fxFlex="50" fxFlexOffset="24px">
+          <div fxLayout="column">
+            <mat-form-field fxFlex>
+              <input matInput placeholder="Form Name" formControlName="name" type="text" onClick="this.select();">
+            </mat-form-field>
+
+            <div fxFill></div>
+
+            <mat-form-field fxFlex>
+              <textarea matInput placeholder="Form Description" formControlName="description"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div fxFlex="50">
+
+          <p>Edit Tabs:</p>
+
+          <mat-list class='container'>
+            <mat-list-item *ngFor="let tab of form.tabs; let i=index">
+              <div fxLayout="row" fxLayoutGap="12px">
+                <button mat-raised-button (click)="openTab(i)" fxFlex="none">{{tab.name}}</button>
+                <button mat-button class="close" matTooltip="Remove Tab" [matTooltipPosition]="'right'" fxFlex="none"
+                  *ngIf="formGroup.value.tabs.length > 1" (click)="removeTab(i)">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
+            </mat-list-item>
+
+          </mat-list>
+
+          <button class="add" mat-raised-button (click)="addTab()">
+            <mat-icon>add</mat-icon>
+            Add Tab
+          </button>
+
+          <br>
+          <br>
+
+        </div>
+
+      </div>
+
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-raised-button (click)="goBack()" *ngIf="isNumber(indices.tabIndex)">Go Back</button>
+      <div fxFlex></div>
+      <button mat-raised-button color="primary" [disabled]="!formGroup.valid" (click)="confirmDialogue('save', 'Create Form', 'Are you sure you wish to create this form?', formGroup.getRawValue())">Create
+        Form</button>
+    </mat-card-actions>
+
+  </mat-card>
+</div>

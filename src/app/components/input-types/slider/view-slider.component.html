@@ -1,0 +1,9 @@
+
+<div id="slider" [formGroup]="questionGroup" (click)="setQG()">
+  <mat-slider
+    [max]="questionGroup.value.max"
+    [min]="questionGroup.value.min"
+    [step]="questionGroup.value.step"
+    formControlName="input"></mat-slider>
+  <mat-checkbox (change)="disable($event)">N/A</mat-checkbox>
+</div>

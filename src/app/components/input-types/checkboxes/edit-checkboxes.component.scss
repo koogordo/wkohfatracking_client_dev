@@ -1,0 +1,30 @@
+.mat-list[dense] .mat-list-item, .mat-nav-list[dense] .mat-list-item, .mat-selection-list[dense] .mat-list-item, .mat-list[dense] .mat-subheader, .mat-nav-list[dense] .mat-subheader, .mat-selection-list[dense] .mat-subheader{
+  min-height: 20px;
+  height: 25px;
+}
+.mat-list[dense], .mat-nav-list[dense], .mat-selection-list[dense]{
+  padding-bottom: 4px;
+}
+mat-panel-title{
+  p{
+    height:15px;
+    margin:0;
+    position: relative;
+    top:50%;
+    transform: translateY(-50%);
+  }
+}
+
+.close {
+  min-width: unset;
+  padding: 8px;
+  line-height: unset;
+  margin-right:16px;
+}
+.grab {
+  cursor: grab;
+}
+
+.indent{
+  margin-left:30px;
+}

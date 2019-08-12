@@ -1,0 +1,6 @@
+<h1 mat-dialog-title>{{ data.actionName }}</h1>
+<h5 class="confirm-message">{{ data.message }}</h5>
+<mat-dialog-actions>
+  <a mat-raised-button (click)="closeDialog(false)">Cancel</a>
+  <a mat-raised-button color="primary" (click)="closeDialog(true)">Confirm</a>
+</mat-dialog-actions>

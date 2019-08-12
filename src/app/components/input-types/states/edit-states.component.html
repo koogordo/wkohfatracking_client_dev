@@ -1,0 +1,27 @@
+<div [formGroup]="questionGroup" fxLayout="column">
+  <div fxLayout="row" fxLayoutGap="2%" fxLayoutAlign="space-around center">
+    <mat-form-field fxFlex="49%">
+
+      <input matInput placeholder="Placeholder" type="text" formControlName="placeholder" onClick="this.select();">
+
+    </mat-form-field>
+    <mat-form-field fxFlex="49%">
+
+      <input matInput placeholder="Hint" type="text" formControlName="hint" onClick="this.select();">
+
+    </mat-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutGap="2%" fxLayoutAlign="space-around center">
+    <mat-form-field fxFlex="49%">
+
+      <input matInput placeholder="Default Value" type="text" formControlName="default" onClick="this.select();">
+
+    </mat-form-field>
+
+    <mat-slide-toggle formControlName="required" fxFlex="49%">
+      Required?
+    </mat-slide-toggle>
+
+  </div>
+
+</div>

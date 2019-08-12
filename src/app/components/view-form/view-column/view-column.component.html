@@ -1,0 +1,17 @@
+<div *ngIf="columnGroup">
+  <div *ngFor="let question of columnGroup.controls.questions.controls; let i = index" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-around center">
+    <div fxFlex>
+      <app-view-input-type
+        [group]="question"
+        [disabled]="disabled"
+        [disabledNotes]="disabledNotes"
+        [cleared]="cleared"
+        [index]="getIndex(i)"
+        [moveup]="moveup"
+        [previewMode]="previewMode"
+        [formGroupCtx]="formGroupCtx"
+        [client]="client"
+      ></app-view-input-type>
+    </div>
+  </div>
+</div>

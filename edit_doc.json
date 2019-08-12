@@ -1,0 +1,31 @@
+{
+"name": "Signature",
+"description": "Client can sign to confirm visit",
+"rows": [
+  {
+    "columnGap": 0,
+    "columns": [
+      {
+        "width": "nogrow",
+        "offset": 0,
+        "questions": [
+          {
+            "key": "Signature",
+            "label": "Client Signature",
+            "labelPosition": "top",
+            "labelWidth": "",
+            "type": "signature",
+            "description": "",
+            "required": false,
+            "notes": [],
+            "validators": null,
+            "usePreviousValue": true,
+            "input": null,
+            "initialLoad": false
+          }
+        ]
+      }
+    ]
+  }
+]
+}

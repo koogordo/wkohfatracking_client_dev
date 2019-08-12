@@ -1,0 +1,57 @@
+<div [formGroup]="questionGroup" fxLayout="column">
+
+  <div fxLayout="row" fxLayoutGap="2%" fxLayoutAlign="space-around center">
+    <mat-slide-toggle formControlName="required" fxFlex>
+      Required?
+    </mat-slide-toggle>
+  </div>
+
+  <div fxLayout="row" fxLayoutGap="2%" fxLayoutAlign="space-around center">
+    <mat-form-field fxFlex="49%">
+
+      <input matInput placeholder="Placeholder" type="text" formControlName="placeholder" onClick="this.select();">
+
+    </mat-form-field>
+    <mat-form-field fxFlex="49%">
+
+      <input matInput placeholder="Hint" type="text" formControlName="hint" onClick="this.select();">
+
+    </mat-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutGap="2%" fxLayoutAlign="space-around center">
+    <label fxFlex>Default Date:</label>
+  </div>
+
+  <div fxLayout="row" fxLayoutGap="2%" fxLayoutAlign="space-around center">
+
+
+    <mat-form-field fxFlex *ngIf="!questionGroup.value.defaultToday">
+      <input matInput [matDatepicker]="defdate" placeholder="Default Date" [formControl]="momFCDefaultDate" (click)="defdate.open()">
+      <mat-datepicker-toggle matSuffix [for]="defdate"></mat-datepicker-toggle>
+      <mat-datepicker #defdate></mat-datepicker>
+    </mat-form-field>
+
+    <mat-slide-toggle formControlName="defaultToday" fxFlex>
+      Today?
+    </mat-slide-toggle>
+
+
+  </div>
+
+  <div fxLayout="row" fxLayoutGap="2%" fxLayoutAlign="space-around center">
+
+    <mat-form-field fxFlex="49%">
+      <input matInput [matDatepicker]="mindate" placeholder="Minimum Date" [formControl]="momFCMinDate" (click)="mindate.open()">
+      <mat-datepicker-toggle matSuffix [for]="mindate"></mat-datepicker-toggle>
+      <mat-datepicker #mindate></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field fxFlex="49%">
+      <input matInput [matDatepicker]="maxdate" placeholder="Maximum Date" [formControl]="momFCMaxDate" (click)="maxdate.open()">
+      <mat-datepicker-toggle matSuffix [for]="maxdate"></mat-datepicker-toggle>
+      <mat-datepicker #maxdate></mat-datepicker>
+    </mat-form-field>
+
+  </div>
+
+</div>

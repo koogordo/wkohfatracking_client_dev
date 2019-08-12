@@ -1,0 +1,147 @@
+<mat-card id="card" *ngIf="formGroup" [formGroup]="formGroup">
+  <mat-card-title class="cardtitle">
+    <div fxLayout="row" class="cardTitleInner">
+      <!-- <div fxFlex fxFlexAlign="center" class="title" fxLayout="row"> -->
+      <h3 fxFlex fxFlexAlign="center" class="title" *ngIf="visitedClient">{{ formGroup.value.name }}: {{ visitedClient.clientFName | name }} {{ visitedClient.clientLName | name }}</h3>
+      <h6 *ngIf="!reviewerIsCorrectReviewer(formGroup.getRawValue().status[formGroup.getRawValue().status.length - 1])" color="primary" fxFlex>
+        Form is locked by {{ formGroup.getRawValue().status[formGroup.getRawValue().status.length - 1].username }} and is read only.
+      </h6>
+      <!-- </div> -->
+      <!-- <div fxFlex class="subtitle" *ngIf="formGroup.value.description">- {{ formGroup.value.description }}</div> -->
+      <!-- <div fxFlex></div> -->
+      <!-- <div fxFlex="200px" fxFlexAlign="center" class="clientSelect">
+        <div *ngIf="allowedClients" fxLayout="row" fxLayoutGap="20px">
+          <div fxFlex="nogrow">Client:</div>
+          <mat-select fxFlex="nogrow" placeholder="Client" formControlName="client" [disabled]="!formID.startsWith('54blankForm')">
+            <mat-option [value]="getID(client.clientID)"> {{ client.clientFName }} {{ client.clientLName }} </mat-option>
+          </mat-select>
+        </div>
+      </div> -->
+    </div>
+  </mat-card-title>
+  <div fxLayout="row">
+    <!--<div fxFlex="nogrow" fxFlexAlign="center">
+      <button mat-icon-button (click)="prevTab()"><fa name="arrow-left"></fa></button>
+    </div>-->
+    <mat-card-content id="cardcontent" fxFlex #cardView>
+      <app-view-form
+        [formGroup]="formGroup"
+        [disabledNotes]="!reviewerIsCorrectReviewer(formGroup.getRawValue().status[formGroup.getRawValue().status.length - 1])"
+        [disabled]="curStatus !== 'open'"
+        [cleared]="cleared"
+        [cardView]="cardViewRef"
+        [selectedIndex]="selectedIndex"
+        [showNotes]="true"
+        [clientID]="clientID"
+      ></app-view-form>
+    </mat-card-content>
+    <!--<div fxFlex="nogrow" fxFlexAlign="center">
+      <button mat-icon-button (click)="nextTab()"><fa name="arrow-right"></fa></button>
+
+    </div>-->
+  </div>
+
+  <mat-card-actions *ngIf="curStatus === 'open'">
+    <div fxLayout="row">
+      <div fxFlex></div>
+      <button mat-raised-button (click)="delete(formGroup.value)">Delete Form</button>
+      <button mat-raised-button (click)="save()">Save Form</button>
+      <button mat-raised-button color="primary" [disabled]="!formGroup.valid" (click)="submit(formGroup.getRawValue())">Submit Form</button>
+    </div>
+  </mat-card-actions>
+
+  <mat-card-actions *ngIf="curStatus === 'submitted'">
+    <div fxLayout="row">
+      <button
+        mat-raised-button
+        [disabled]="!formGroup.valid || !reviewerIsCorrectReviewer(formGroup.getRawValue().status[formGroup.getRawValue().status.length - 1])"
+        (click)="confirmDialogue('sendbacktoos', 'Send Back?', 'Are you sure you would like send this review back to the OS?', 'Visit Was Not Sent Back', 'Visit Sent Back')"
+      >
+        Send Back to OS
+      </button>
+      <div fxFlex></div>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="confirmDialogue('lock', 'Lock Visit', 'Are you sure you would like to make this visit unavailable to the OS?', 'Visit Was Not Locked', 'Visit Successfully Locked')"
+      >
+        Lock Form
+      </button>
+    </div>
+  </mat-card-actions>
+
+  <mat-card-actions *ngIf="curStatus === 'under review'">
+    <div fxLayout="row">
+      <button
+        mat-raised-button
+        [disabled]="!formGroup.valid || !reviewerIsCorrectReviewer(formGroup.getRawValue().status[formGroup.getRawValue().status.length - 1])"
+        (click)="confirmDialogue('lock', 'Finish Review', 'Are you sure you would like to finish this review?', 'Review Will Continue', 'Review Successfully Saved')"
+      >
+        Finish Review
+      </button>
+      <div fxFlex></div>
+      <button
+        mat-raised-button
+        [disabled]="!formGroup.valid || !reviewerIsCorrectReviewer(formGroup.getRawValue().status[formGroup.getRawValue().status.length - 1])"
+        (click)="confirmDialogue('save', 'Save Review', 'Are you sure you would like to save your review progress?', 'Progress Was Not Saved', 'Progress Successfully Changed')"
+      >
+        Save Review Progress
+      </button>
+      <!-- <button mat-raised-button [disabled]="!formGroup.valid" (click)="sendBackToOS()">Send
+          Back to OS 
+        </button>
+      <button mat-raised-button [disabled]="!formGroup.valid" (click)="accept()">Queue
+        for DB</button> -->
+    </div>
+  </mat-card-actions>
+
+  <mat-card-actions *ngIf="curStatus === 'reviewer pool'">
+    <div fxLayout="row">
+      <button
+        mat-raised-button
+        [disabled]="!formGroup.valid || !reviewerIsCorrectReviewer(formGroup.getRawValue().status[formGroup.getRawValue().status.length - 1])"
+        (click)="
+          confirmDialogue('unlock', 'Make Available To OS', 'Are you sure you would like to make this visit available to the OS?', 'Visit Will Remain Locked', 'Visit Successfully Unlocked To OS')
+        "
+      >
+        Unlock Form
+      </button>
+
+      <!-- <button mat-raised-button [disabled]="!formGroup.valid" (click)="sendBackToOS()">Send
+        Back to OS
+      </button> -->
+      <div fxFlex></div>
+
+      <button
+        mat-raised-button
+        [disabled]="!formGroup.valid || !reviewerIsCorrectReviewer(formGroup.getRawValue().status[formGroup.getRawValue().status.length - 1])"
+        (click)="confirmDialogue('queueup', 'Queue To Database', 'Are you sure you would like to queue this visit for permanence?', 'Visit Was Not Queued', 'Visit Successfully Queued')"
+      >
+        Queue for DB
+      </button>
+      <button
+        mat-raised-button
+        [disabled]="!formGroup.valid || !reviewerIsCorrectReviewer(formGroup.getRawValue().status[formGroup.getRawValue().status.length - 1])"
+        (click)="confirmDialogue('startreview', 'Begin Review', 'Are you sure you would like to review this visit?', 'Visit Not Under Review', 'Review Has Started')"
+      >
+        Start Review
+      </button>
+    </div>
+  </mat-card-actions>
+
+  <mat-card-actions *ngIf="curStatus === 'queued'">
+    <div fxLayout="row">
+      <button
+        mat-raised-button
+        [disabled]="!formGroup.valid || !reviewerIsCorrectReviewer(formGroup.getRawValue().status[formGroup.getRawValue().status.length - 1])"
+        (click)="confirmDialogue('lock', 'Unqueue From Database', 'Are you sure you would like to unqueue this visit?', 'Visit Was Not Unqueued', 'Visit Successfully Queued')"
+      >
+        Pull Back To Review Pool
+      </button>
+      <div fxFlex></div>
+      <!-- <button mat-raised-button color="warn" [disabled]="!formGroup.valid" (click)="sendBackToOS(formGroup.getRawValue())">Send
+        Back to OS</button> -->
+    </div>
+  </mat-card-actions>
+</mat-card>
+<pre *ngIf="false">{{ formGroup.getRawValue() | json }}</pre>

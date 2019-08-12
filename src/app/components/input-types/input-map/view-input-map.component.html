@@ -1,0 +1,58 @@
+<div
+  fxLayout="row"
+  *ngIf="questionGroup.value.function === 'bmi' || questionGroup.value.function === 'bmiChange' || (questionGroup.value.function === 'prevValue' && inputIsNumber(questionGroup.getRawValue().input))"
+  (click)="setQG()"
+>
+  <p fxFlex="" class="output">{{ questionGroup.getRawValue().input | number: '1.1-1' }}</p>
+</div>
+<div fxLayout="row" *ngIf="questionGroup.value.function === 'prevIncome'" (click)="setQG()">
+  <p fxFlex="" [ngClass]="outputClasses">{{ formatOutput(questionGroup.getRawValue()) }}</p>
+</div>
+<div
+  fxLayout="row"
+  *ngIf="
+    (questionGroup.value.function === 'prevValue' && !inputIsNumber(questionGroup.getRawValue().input)) ||
+    questionGroup.value.function === 'heightChange' ||
+    questionGroup.value.function === 'weightChange' ||
+    questionGroup.value.function === 'gestAge' ||
+    questionGroup.value.function === 'trimester' ||
+    questionGroup.value.function === 'adequatePrenat' ||
+    questionGroup.value.function === 'add' ||
+    questionGroup.value.function === 'clientScore' ||
+    questionGroup.value.function === 'diffValue' ||
+    questionGroup.value.function === 'timeDuration' ||
+    questionGroup.value.function === 'volHours'
+  "
+  (click)="setQG()"
+>
+  <p fxFlex="" [ngClass]="outputClasses">{{ formatOutput(questionGroup.getRawValue()) }}</p>
+</div>
+
+<div fxLayout="row" *ngIf="questionGroup.value.function === 'age'" (click)="setQG()">
+  <p fxFlex="{{ !!questionGroup.value.input ? '' : '200px' }}" class="output output-right-padding">{{ questionGroup.getRawValue().input }}</p>
+</div>
+
+<div fxLayout="row" *ngIf="questionGroup.value.function === 'medHome'" (click)="setQG()">
+  <div *ngIf="questionGroup.getRawValue().input" fxFlex fxFlexAlign="center">
+    <button mat-icon-button color="accent">
+      <mat-icon>check_circle</mat-icon>
+    </button>
+  </div>
+  <div *ngIf="!questionGroup.getRawValue().input" fxFlex fxFlexAlign="center">
+    <button mat-icon-button color="warn">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>
+
+<div fxLayout="row" fxLayoutGap="20px" *ngIf="questionGroup.value.function === 'income'" (click)="setQG()" [formGroup]="questionGroup.controls.indices">
+  <mat-form-field fxFlex="100px">
+    <input matInput currencyMask type="text" formControlName="weekly" placeholder="Weekly" [options]="{ precision: 0 }" onselect="this.select();" />
+  </mat-form-field>
+  <mat-form-field fxFlex="100px">
+    <input matInput currencyMask type="text" formControlName="monthly" placeholder="Monthly" [options]="{ precision: 0 }" onselect="this.select();" />
+  </mat-form-field>
+  <mat-form-field fxFlex="100px">
+    <input matInput currencyMask type="text" formControlName="yearly" placeholder="Yearly" [options]="{ precision: 0 }" onselect="this.select();" />
+  </mat-form-field>
+</div>

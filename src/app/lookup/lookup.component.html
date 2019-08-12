@@ -1,0 +1,85 @@
+<mat-card>
+  <mat-card-content>
+    <div fxLayout="row" fxLayoutGap="3%">
+      <div fxFlex="15" fxFlexAlign="center">
+        <p>Choose Form</p>
+      </div>
+
+
+      <mat-form-field fxFlex="25" fxFlexAlign="center">
+        <mat-select placeholder="Form" [formControl]="chosenFormFC" (change)="chooseForm()">
+          <mat-option *ngFor="let form of storedForms" [value]="form">
+            {{form.form.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div fxFlex="nogrow" fxFlexAlign="center">
+        <button *ngIf="chosenFormFG" mat-raised-button (click)="selectKeys()">Choose Form Fields</button>
+      </div>
+
+    </div>
+    <div fxLayout="row" *ngIf="chosenKeys.length != 0">
+      <mat-selection-list fxFlex="100" #list>
+        <div fxLayout="row">
+          <h3 mat-subheader>Metadata</h3>
+        </div>
+        <div fxLayout="row">
+          <mat-list-option [value]="{key:'os',index:'metadata'}">OS ID</mat-list-option>
+          <mat-list-option [value]="{key:'client',index:'metadata'}">Client ID</mat-list-option>
+          <mat-list-option [value]="{key:'reviewer',index:'metadata'}">Reviewer ID</mat-list-option>
+          <mat-list-option [value]="{key:'dateSubmittedForReview',index:'metadata'}">Date Submitted</mat-list-option>
+        </div>
+        <div fxLayout="row">
+          <h3 mat-subheader>Form Fields</h3>
+        </div>
+        <div fxLayout="row" *ngFor="let key of chosenKeys">
+          <mat-list-item fxFlex="100">
+            <div fxLayout="row" fxLayoutGap="3%">
+              <div fxFlex="25" fxFlexAlign="center">{{key.key}}</div>
+
+              <mat-form-field *ngIf="getType(key.index) === 'date'">
+                <input matInput [matDatepicker]="date" placeholder="After"  (click)="date.open()" [formControl]="afterDateFC">
+                <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
+                <mat-datepicker #date></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field *ngIf="getType(key.index) === 'date'">
+                <input matInput [matDatepicker]="date" placeholder="Before" (click)="date.open()" [formControl]="beforeDateFC">
+                <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
+                <mat-datepicker #date></mat-datepicker>
+              </mat-form-field>
+
+
+
+
+            </div>
+
+
+          </mat-list-item>
+        </div>
+      </mat-selection-list>
+
+    </div>
+
+
+    <mat-table  #table [dataSource]="dataSource" *ngIf="sub">
+
+      <ng-container matColumnDef="{{key.key}}" *ngFor="let key of selectedAndChosenKeys">
+        <mat-header-cell *matHeaderCellDef> {{key.key}} </mat-header-cell>
+        <mat-cell *matCellDef="let element"> <span *ngIf="key.key === 'dateSubmittedForReview' || (key.index !=='metadata' && getType(key.index) === 'date'); else other">{{element[key.key] | date}}</span> <ng-template #other>{{element[key.key]}}</ng-template> </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClicked(row)"></mat-row>
+    </mat-table>
+
+  </mat-card-content>
+
+  <mat-card-actions>
+    <div fxFlex></div>
+    <button mat-raised-button color="primary" [disabled]="chosenKeys.length === 0" (click)="getForms()">Get Forms</button>
+  </mat-card-actions>
+
+
+</mat-card>

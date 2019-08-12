@@ -1,0 +1,66 @@
+mat-card {
+  padding-top: 0;
+  margin-top: 8px;
+  .mat-card-title {
+    padding: 8px 24px;
+    width: calc(100%);
+    position: relative;
+    left: -24px;
+    background-color: whitesmoke;
+    //font-size:unset!important;
+    .title {
+      font-size: 16px;
+    }
+    .clientSelect {
+    }
+  }
+  mat-card-content {
+    height: calc(100vh - 32px - 32px - 36px - 8px - 24px - 64px - 3px);
+    overflow: auto;
+    .close {
+      min-width: unset;
+      padding: 8px;
+      line-height: unset;
+      position: absolute;
+      left: calc(100% - 14px - 16px);
+    }
+    .new {
+      min-width: unset;
+      padding: 8px;
+      line-height: unset;
+      position: relative;
+      left: -36px;
+    }
+  }
+}
+.unresolved {
+  color: red;
+  padding-left: 24px;
+}
+mat-tooltip-component > .mat-tooltip {
+  white-space: pre;
+}
+.link-cursor {
+  cursor: pointer;
+}
+
+#tabGroup {
+}
+.mat-card-title {
+  font-size: 14px !important;
+  margin-bottom: 8px !important;
+}
+.mat-tab-header {
+  margin-bottom: 8px !important;
+}
+
+.back-button {
+}
+.cardtitle {
+  height: 25px !important;
+  margin-bottom: 0px !important;
+}
+
+.cardTitleInner {
+  height: 100%;
+}

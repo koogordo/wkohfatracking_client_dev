@@ -1,0 +1,58 @@
+<div *ngIf="questionGroup" [formGroup]="questionGroup" fxLayout="column">
+  <!--<app-view-form-section-item [group]="questionGroup"></app-view-form-section-item>-->
+
+  <mat-form-field fxFlex>
+    <input matInput placeholder="Key" type="text" formControlName="key" onClick="this.select();" />
+  </mat-form-field>
+  <mat-form-field fxFlex>
+    <input matInput placeholder="Label" type="text" formControlName="label" onClick="this.select();" />
+  </mat-form-field>
+  <mat-form-field fxFlex>
+    <textarea matInput placeholder="Input Description" formControlName="description"></textarea>
+  </mat-form-field>
+  <div fxLayout="row" fxLayoutGap="2%">
+    <mat-form-field fxFlex="49%">
+      <mat-select placeholder="Label/Description Position" formControlName="labelPosition" (selectionChange)="selectPosition()">
+        <mat-option [value]="'top'">Top</mat-option>
+        <mat-option [value]="'bottom'">Bottom</mat-option>
+        <mat-option [value]="'left'">Left</mat-option>
+        <mat-option [value]="'right'">Right</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field fxFlex="49%">
+      <input matInput placeholder="Label Width" formControlName="labelWidth" type="text" />
+    </mat-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutGap="2%">
+    <div fxFlex>
+      <mat-checkbox formControlName="usePreviousValue">Ignore Value From Previous Form</mat-checkbox>
+    </div>
+  </div>
+  <mat-form-field fxFlex>
+    <mat-select placeholder="Input Type" formControlName="type" (selectionChange)="selectType()">
+      <mat-option *ngFor="let type of types" [value]="type.key">
+        {{ type.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!--DON'T MODIFY OR PUT ANYTHING BELOW HERE-->
+  <edit-textbox *ngIf="questionGroup.value.type === 'textbox'" [group]="questionGroup"></edit-textbox>
+  <edit-textarea *ngIf="questionGroup.value.type === 'textarea'" [group]="questionGroup"></edit-textarea>
+  <edit-tel *ngIf="questionGroup.value.type === 'tel'" [group]="questionGroup"></edit-tel>
+  <edit-ssn *ngIf="questionGroup.value.type === 'ssn'" [group]="questionGroup"></edit-ssn>
+  <edit-number *ngIf="questionGroup.value.type === 'number'" [group]="questionGroup"></edit-number>
+  <edit-dropdown *ngIf="questionGroup.value.type === 'dropdown'" [group]="questionGroup"></edit-dropdown>
+  <edit-checkbox *ngIf="questionGroup.value.type === 'checkbox'" [group]="questionGroup"></edit-checkbox>
+  <edit-slide-toggle *ngIf="questionGroup.value.type === 'slide-toggle'" [group]="questionGroup"></edit-slide-toggle>
+  <edit-checkboxes *ngIf="questionGroup.value.type === 'checkboxes'" [group]="questionGroup"></edit-checkboxes>
+  <edit-radio-buttons *ngIf="questionGroup.value.type === 'radio-buttons'" [group]="questionGroup"></edit-radio-buttons>
+  <edit-date *ngIf="questionGroup.value.type === 'date'" [group]="questionGroup"></edit-date>
+  <edit-question-array *ngIf="questionGroup.value.type === 'question-array'" [group]="questionGroup"></edit-question-array>
+  <edit-question-group *ngIf="questionGroup.value.type === 'question-group'" [group]="questionGroup"></edit-question-group>
+  <edit-time *ngIf="questionGroup.value.type === 'time'" [group]="questionGroup"></edit-time>
+  <edit-input-map *ngIf="questionGroup.value.type === 'input-map'" [group]="questionGroup"></edit-input-map>
+  <edit-slider *ngIf="questionGroup.value.type === 'slider'" [group]="questionGroup"></edit-slider>
+  <edit-states *ngIf="questionGroup.value.type === 'states'" [group]="questionGroup"></edit-states>
+  <edit-contact-log *ngIf="questionGroup.value.type === 'contact-log'" [group]="questionGroup"></edit-contact-log>
+</div>

@@ -1,0 +1,9 @@
+<mat-form-field [ngClass]="moveup" [formGroup]="questionGroup" (click)="setQG()">
+  <textarea matInput matTextareaAutosize placeholder="{{questionGroup.value.placeholder}}" formControlName="input"></textarea>
+  <mat-hint *ngIf="questionGroup.value.description">
+    {{questionGroup.value.hint}
+  </mat-hint>
+  <mat-error *ngFor="let val of questionGroup.value.validators">
+    <span *ngIf="val.validator(questionGroup.controls.input)">{{val.description}}</span>
+  </mat-error>
+</mat-form-field>

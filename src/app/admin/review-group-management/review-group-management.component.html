@@ -1,0 +1,20 @@
+<mat-card id="card" *ngIf="formGroupToView" [formGroup]="formGroupToView">
+  <mat-card-title id="cardtitle">
+    <div fxLayout="row">
+      <div fxFlex class="subtitle" *ngIf="formGroupToView.value.description">- {{ formGroupToView.value.description }}</div>
+    </div>
+  </mat-card-title>
+  <div fxLayout="row">
+    <mat-card-content id="cardcontent" fxFlex #cardView>
+      <app-view-form *ngIf="formGroupToView" [formGroup]="formGroupToView"></app-view-form>
+    </mat-card-content>
+  </div>
+  <mat-card-actions>
+    <div fxLayout="row">
+      <div fxFlex></div>
+      <button mat-raised-button color="primary" (click)="confirmDialogue('addupdate', 'Confirm Changes', 'Are you sure you would like to add/update this Review Group?')">
+        Add/Update Review Group
+      </button>
+    </div>
+  </mat-card-actions>
+</mat-card>

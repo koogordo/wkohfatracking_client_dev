@@ -1,0 +1,28 @@
+<mat-card id="card" *ngIf="formGroupToView" [formGroup]="formGroupToView">
+  <mat-card-title id="cardtitle">
+    <div fxLayout="row">
+      <div fxFlex class="subtitle" *ngIf="formGroupToView.value.description">- {{ formGroupToView.value.description }}</div>
+    </div>
+  </mat-card-title>
+  <div fxLayout="row">
+    <mat-card-content id="cardcontent" fxFlex #cardView>
+      <app-view-form *ngIf="formGroupToView" [formGroup]="formGroupToView" [clientID]="clientID"></app-view-form>
+
+      <h4 *ngIf="errorInClientIds" class="error-message">{{ clientIdError }}</h4>
+    </mat-card-content>
+  </div>
+  <mat-card-actions *ngIf="isAddUser && !isUpdateUser">
+    <div fxLayout="row">
+      <div fxFlex></div>
+      <button mat-raised-button color="primary" (click)="confirmDialogue('add', 'Confirm Changes', 'Are you sure you would like to add this User?')">Add User</button>
+    </div>
+  </mat-card-actions>
+
+  <mat-card-actions *ngIf="isUpdateUser && !isAddUser">
+    <div fxLayout="row">
+      <div fxFlex></div>
+
+      <button mat-raised-button color="primary" (click)="confirmDialogue('update', 'Confirm Changes', 'Are you sure you would like to update this User?')">Update User</button>
+    </div>
+  </mat-card-actions>
+</mat-card>

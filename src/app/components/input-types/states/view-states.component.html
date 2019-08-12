@@ -1,0 +1,14 @@
+<mat-form-field *ngIf="questionGroup" [formGroup]="questionGroup" fxFlex (click)="setQG()">
+  <input matInput placeholder="{{ questionGroup.value.placeholder }}" formControlName="input" type="text" [matAutocomplete]="auto" />
+  <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+    <mat-option *ngFor="let option of (filteredOptions | async)" [value]="option">
+      {{ option }}
+    </mat-option>
+  </mat-autocomplete>
+  <mat-hint *ngIf="questionGroup.value.hint">
+    {{ questionGroup.value.hint }}
+  </mat-hint>
+  <mat-error *ngFor="let val of questionGroup.value.validators">
+    <span *ngIf="val.validator(questionGroup.controls.input)">{{ val.description }}</span>
+  </mat-error>
+</mat-form-field>

@@ -1,0 +1,18 @@
+<mat-form-field *ngIf="questionGroup" [ngClass]="moveup" [formGroup]="questionGroup" fxFlex (click)="setQG()">
+  <input matInput placeholder="{{questionGroup.value.placeholder}}" formControlName="input" type="text">
+  <mat-hint *ngIf="questionGroup.value.hint">
+    {{questionGroup.value.hint}}
+  </mat-hint>
+  <ng-container *ngIf="questionGroup.touched && questionGroup.errors">
+    <ng-container *ngIf="isArray(questionGroup.getRawValue().validators); else validatorsNotArray">
+      <mat-error *ngFor="let val of questionGroup.getRawValue().validators">
+        <span *ngIf="val.validator(questionGroup.controls.input)">{{val.description}}</span>
+      </mat-error>
+    </ng-container>
+    <ng-template #validatorsNotArray>
+      <mat-error>
+        <span *ngIf="questionGroup.getRawValue().validators.validator(questionGroup.controls.input)">{{questionGroup.getRawValue().validators.description}}</span>
+      </mat-error>
+    </ng-template>
+  </ng-container>
+</mat-form-field>

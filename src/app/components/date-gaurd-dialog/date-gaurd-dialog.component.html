@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>Visit Date Invalid</h1>
+<h5 class="confirm-message">Visit date must meet these requirements:</h5>
+<ul>
+  <li>Same as or after initial visit date of {{ ivdMoment.format('MM/DD/YYYY') }}</li>
+  <li>After the previous visit date of {{ pvdMoment.format('MM/DD/YYYY') }}</li>
+  <li>Same as or before today's date of {{ today.format('MM/DD/YYYY') }}</li>
+</ul>
+<mat-dialog-actions>
+  <button mat-raised-button (click)="closeDialog()">Close</button>
+</mat-dialog-actions>

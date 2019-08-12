@@ -1,0 +1,28 @@
+<mat-card *ngIf="formGroup" [formGroup]="formGroup">
+  <mat-card-title>
+    <div fxLayout="row">
+      <div fxFlex fxFlexAlign="center" class="title" *ngIf="family">Family of {{ family.clientFName | name }} {{ family.clientLName | name }}</div>
+      <div fxFlex class="subtitle" *ngIf="formGroup.value.description">- {{ formGroup.value.description }}</div>
+    </div>
+  </mat-card-title>
+  <div fxLayout="row">
+    <mat-card-content fxFlex #cardView>
+      <mat-tab-group [style.maxHeight.px]="setMaxHeight()" [(selectedIndex)]="selectedIndex">
+        <mat-tab *ngFor="let tab of formGroup.controls.tabs.controls; let i = index" label="{{ tab.value.name }}">
+          <div fxLayout="column" *ngIf="selectedIndex === i">
+            <app-view-tab [group]="tab" [disabled]="false" [index]="[{ type: 'tab', index: i }]"></app-view-tab>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+  </div>
+  <mat-card-actions>
+    <div fxLayout="row">
+      <div fxFlex></div>
+      <a mat-raised-button [routerLink]="['/home']" [queryParams]="{ returnFamily: familyID }">Go Back</a>
+      <button mat-raised-button color="primary" (click)="confirmDialogue('update', 'Update Log', 'Are you sure you would like to update this log?', 'Log Was Not Updated', 'Log Updated')">
+        Update
+      </button>
+    </div>
+  </mat-card-actions>
+</mat-card>

@@ -1,0 +1,88 @@
+<div class="main-row" fxLayout="row">
+  <div class="col-left" fxFlex="7%">
+    <button mat-mini-fab color="primary" class="page-action-btn" (click)="goBack()"><mat-icon>arrow_back</mat-icon></button>
+  </div>
+  <div class="col-center" fxFlex="80%">
+    <div id="pdfOutlet" *ngIf="formPayload">
+      <div id="pdfContainer">
+        <div id="header" fxLayout="row">
+          <div fxFlex="1 1 auto" class="header-section">
+            <h4 id="familyID" class="pdf-header-part">Family ID: {{ formPayload.form.familyID }}</h4>
+            <h4 id="primaryAdult" class="pdf-header-part">Primary Adult: {{ formPayload.form.primaryAdultName }}</h4>
+          </div>
+          <div fxFlex="1 1 auto" class="header-section">
+            <h1 id="formNameHeader" class="pdf-header-part">{{ formPayload.form.name }}</h1>
+            <h4 id="clientName" class="pdf-header-part">Client: {{ formPayload.form.clientName }}</h4>
+            <h4 id="clientID" class="pdf-header-part">Client ID: {{ formPayload.form.client }}</h4>
+          </div>
+          <div fxFlex="1 1 auto" class="header-section">
+            <h4 id="visitDate" class="pdf-header-part">Visit Date: {{ formPayload.form.visitDate }}</h4>
+            <h4 id="submittedDate" class="pdf-header-part">Archived Date: {{ formPayload.form.dateSubmitted }}</h4>
+          </div>
+        </div>
+        <div id="pdf-body" fxLayout="column">
+          <ng-container *ngFor="let tab of formPayload.form.tabs; let i = index">
+            <div id="tabOutlet{{ i }}" class="tab" fxFlex="1 1 auto" fxLayout="column">
+              <h2>{{ tab.name }}</h2>
+              <mat-divider></mat-divider>
+              <div *ngFor="let section of tab.sections" fxFlex="1 1 auto" fxLayout="column">
+                <h3>{{ section.name }}</h3>
+                <mat-divider></mat-divider>
+                <div *ngFor="let row of section.rows" fxFlex="1 1 auto" fxLayout="row">
+                  <div *ngFor="let column of row.columns" fxFlex="1 1 auto" fxLayout="column" class="column">
+                    <div *ngFor="let question of column.questions" fxFlex="1 1 auto" fxLayout="row" class="row">
+                      <h4 fxFlex="1 1 auto" class="form-label">{{ getLabel(question) }}</h4>
+                      <ng-container *ngIf="question.type !== 'checkboxes' && question.type !== 'question-array'">
+                        <h5 fxFlex="1 1 auto" class="form-label">{{ question.input }}</h5>
+                      </ng-container>
+
+                      <!-- The form display if the input was a checkbox-->
+                      <ng-container *ngIf="question.type === 'checkboxes'">
+                        <ng-container *ngFor="let input of question.input; let i = index">
+                          <h5 *ngIf="input" class="form-label">{{ question.options[i].value }}</h5>
+                          <ng-container *ngIf="question.options[i].specify && input">
+                            <ng-container *ngFor="let row of question.options[i].rows">
+                              <ng-container *ngFor="let column of row.columns">
+                                <ng-container *ngFor="let question of column.questions">
+                                  <h4 class="form-label">{{ getLabel(question) }}</h4>
+                                  <h5 class="form-label">{{ question.input }}</h5>
+                                </ng-container>
+                              </ng-container>
+                            </ng-container>
+                          </ng-container>
+                        </ng-container>
+                      </ng-container>
+                      <!-- ---------------------------------------------- -->
+
+                      <!-- The form to be displayed if the input is a question array-->
+                      <ng-container *ngIf="question.type === 'question-array'">
+                        <ng-container *ngFor="let input of input">
+                          <ng-container *ngFor="let row of input.rows">
+                            <ng-container *ngFor="let column of row.columns">
+                              <ng-container *ngFor="let question of column.question">
+                                <h4 class="form-label">{{ getLabel(question) }}</h4>
+                                <h5 class="form-label">{{ question.input }}</h5>
+                              </ng-container>
+                            </ng-container>
+                          </ng-container>
+                        </ng-container>
+                      </ng-container>
+                      <!--------------------------------------------------------------->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-right" fxFlex="12%">
+    <button mat-raised-button color="primary" class="page-action-btn" (click)="saveAsPdf()">Download PDF<mat-icon>play_for_work</mat-icon></button>
+    <div *ngIf="downLoadInProgress" class="pad-top">
+      <mat-spinner></mat-spinner>
+      <h5>Page {{ completedPages }} of {{ totalPages }} completed.</h5>
+    </div>
+  </div>
+</div>

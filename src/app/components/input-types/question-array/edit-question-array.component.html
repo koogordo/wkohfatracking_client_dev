@@ -1,0 +1,33 @@
+<div *ngIf="questionGroup.value.type==='question-array'" fxLayout="column" fxLayoutGap="10px" [formGroup]="questionGroup">
+  <mat-form-field>
+    <input matInput type="text" formControlName="addButtonText" placeholder="Add Button Text">
+  </mat-form-field>
+  <mat-checkbox formControlName="removable" >Removable Options?</mat-checkbox>
+  <p fxFlex>Questions in Each Array Item: </p>
+  <!-- <mat-accordion>  fxFlex> -->
+    <ng-container *ngFor = "let row of questionGroup['controls']['rows']['controls']; let i=index">
+      <!-- <mat-expansion-panel-header [collapsedHeight]="'auto'" [expandedHeight]="'auto'" > -->
+        <!-- <mat-panel-title> -->
+          <p>Row {{i+1}}:</p>
+        <!-- </mat-panel-title> -->
+        <!-- <mat-panel-description> -->
+          <div fxLayout="row" fxLayoutWrap>
+            <mat-list dense *ngFor="let column of row.controls.columns.controls; let j=index" fxFlex>
+              <h5 matSubheader>Column {{j+1}}:</h5>
+              <mat-list-item *ngFor="let question of column.controls.questions.controls">
+                {{question.value.key}}
+              </mat-list-item>
+            </mat-list>
+          </div>
+        <!-- </mat-panel-description> -->
+        <button mat-button class="close" matTooltip="Remove Row" [matTooltipPosition]="'right'" (click)="removeRow(questionGroup['controls']['rows'],i)" [disabled]="questionGroup['controls']['rows']['controls'].length <= 1"><mat-icon>close</mat-icon></button>
+      <!-- </mat-expansion-panel-header> -->
+      <div>
+        <app-edit-row [group]="row" [index]="index + ',rows,'+i"></app-edit-row>
+      </div>
+    </ng-container>
+  <!-- </mat-accordion> -->
+  <div fxFlex>
+    <p><button mat-button (click)="addRow(questionGroup['controls']['rows'])">Add New Row</button></p>
+  </div>
+</div>

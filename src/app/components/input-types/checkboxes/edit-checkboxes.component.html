@@ -1,0 +1,87 @@
+<div fxLayout="column" fxLayoutGap="10px" [formGroup]="questionGroup">
+  <div fxLayout="row" fxLayoutGap="2%">
+    <mat-form-field fxFlex>
+      <mat-select placeholder="Orientation" formControlName="orientation">
+        <mat-option value="horizontal">Horizontal</mat-option>
+        <mat-option value="vertical">Vertical</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field fxFlex>
+      <mat-select placeholder="Specify Position" formControlName="specifyPosition">
+        <mat-option value="right">Right of Item</mat-option>
+        <mat-option value="below">Below Item</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutGap="2%">
+    <mat-form-field fxFlex="49%">
+
+      <input matInput placeholder="Offset" type="text" formControlName="offset" onClick="this.select();">
+
+    </mat-form-field>
+  </div>
+  <div fxFlex>
+    <p>Options:</p>
+    <div>
+      <div fxLayout="row" *ngFor="let option of questionGroup['controls']['options']['controls']; let i=index" [formGroup]="option" fxLayoutGap="2%" fxLayoutAlign="space-around center">
+        <button class="close" [ngClass]="(questionGroup['controls']['options']['controls'].length <= 1) ? '': 'grab'" mat-button fxFlex="5%" [disabled]="questionGroup['controls']['options']['controls'].length <= 1"><fa name="bars" *ngIf="questionGroup['controls']['options']['controls'].length > 1"></fa></button>
+        <div fxFlex="90%">
+          <div fxLayout="column" >
+            <div fxLayout="row" fxLayoutGap="2%" fxLayoutAlign="space-around center">
+              <mat-form-field fxFlex="30%">
+
+                <input matInput placeholder="Key" type="text" formControlName="key" onClick="this.select();">
+
+              </mat-form-field>
+
+              <mat-form-field fxFlex="30%">
+
+                <input matInput placeholder="Value" formControlName="value" type="text">
+
+              </mat-form-field>
+
+              <mat-slide-toggle formControlName="specify" fxFlex="nogrow">Specify?</mat-slide-toggle>
+
+              <button mat-button class="close" matTooltip="Remove Option" [matTooltipPosition]="'right'" (click)="removeOption(i)" [disabled]="questionGroup['controls']['options']['controls'].length <= 1"><mat-icon>close</mat-icon></button>
+            </div>
+            <div fxFlex  *ngIf="option.value.specify">
+              <div class="indent" fxLayout="column">
+                <p fxFlex>Specify Questions: </p>
+                <!-- mat-accordion>  fxFlex> -->
+                  <ng-container *ngFor = "let row of option['controls']['rows']['controls']; let i=index">
+                    <!-- <mat-expansion-panel-header [collapsedHeight]="'auto'" [expandedHeight]="'auto'" > -->
+                      <!-- <mat-panel-title> -->
+                        <p>Row {{i+1}}:</p>
+                      <!-- </mat-panel-title> -->
+                      <!-- <mat-panel-description> -->
+                        <div fxLayout="row" fxLayoutWrap>
+                          <mat-list dense *ngFor="let column of row.controls.columns.controls; let j=index" fxFlex>
+                            <h5 matSubheader>Column {{j+1}}:</h5>
+                            <mat-list-item *ngFor="let question of column.controls.questions.controls">
+                              {{question.value.key}}
+                            </mat-list-item>
+                          </mat-list>
+                        </div>
+                      <!-- </mat-panel-description> -->
+                      <button mat-button class="close" matTooltip="Remove Row" [matTooltipPosition]="'right'" (click)="removeRow(option['controls']['rows'],i)" [disabled]="option['controls']['rows']['controls'].length <= 1"><mat-icon>close</mat-icon></button>
+                    <!-- </mat-expansion-panel-header> -->
+                    <div>
+                      <app-edit-row [group]="row" [index]="index + ',rows,'+i"></app-edit-row>
+                    </div>
+                  </ng-container> 
+                <!-- </mat-accordion> -->
+                <div fxFlex>
+                  <p><button mat-button (click)="addRow(option['controls']['rows'])">Add New Row</button></p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button mat-button (click)="addOption()">Add Option</button>
+  </div>
+
+</div>

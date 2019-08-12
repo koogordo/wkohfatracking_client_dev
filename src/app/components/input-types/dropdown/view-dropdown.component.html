@@ -1,0 +1,34 @@
+<div *ngIf="questionGroup" fxLayout="{{ questionGroup.value.specifyPosition === 'right' ? 'row' : 'column' }}" class="wrapper">
+  <div fxFlex="nogrow" fxFlexAlign="start">
+    <div fxLayout="row">
+      <mat-form-field (click)="setQG()" [formGroup]="questionGroup" fxFlex="{{ questionGroup.value.dropdownWidth }}">
+        <mat-select placeholder="{{ questionGroup.value.placeholder }}" formControlName="input">
+          <mat-option *ngFor="let option of questionGroup.controls.options.controls" value="{{ option.value.key }}" (click)="toggleSpecifyValues(option)">{{ option.value.value }}</mat-option>
+        </mat-select>
+        <mat-hint *ngIf="questionGroup.value.hint">
+          {{ questionGroup.value.hint }}
+        </mat-hint>
+        <mat-error *ngFor="let val of questionGroup.value.validators">
+          <span *ngIf="val.validator(questionGroup.controls.input)">{{ val.description }}</span>
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div *ngIf="questionGroup.value.specifyPosition === 'right'" fxFlex="20px"></div>
+  <div fxFlex="nogrow">
+    <div fxLayout="row">
+      <div *ngFor="let opt of questionGroup.controls.options.controls; let i = index" fxFlex="nogrow">
+        <div *ngIf="questionGroup.getRawValue().input === opt.value.key && opt.value.specify">
+          <app-view-row
+            [disabled]="disabled"
+            [disabledNotes]="disabledNotes"
+            [group]="row"
+            [moveup]="questionGroup.value.specifyPosition === 'right' ? '' : 'moveup'"
+            *ngFor="let row of opt['controls']['rows']['controls']; let j = index"
+            [index]="getIndex(i, j)"
+          ></app-view-row>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<div *ngIf="rowGroup" fxLayout="row wrap" fxLayoutGap="{{ rowGroup.value.columnGap }}" fxLayoutWrap>
+  <div fxFlex="{{ column.value.width }}" *ngFor="let column of rowGroup.controls.columns.controls; let i = index">
+    <div fxLayout="row" style="height:100%">
+      <div fxFlex="" fxFlexAlign="{{ column.value.align }}">
+        <div fxLayout="row">
+          <div fxFlex="" fxFlexOffset="{{ column.value.offset == 0 ? 'nogrow' : column.value.offset }}">
+            <app-view-column
+              [formGroupCtx]="formGroupCtx"
+              [group]="column"
+              [disabled]="disabled"
+              [disabledNotes]="disabledNotes"
+              [cleared]="cleared"
+              [index]="getIndex(i)"
+              [moveup]="moveup"
+              [previewMode]="previewMode"
+              [client]="client"
+            >
+            </app-view-column>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<div fxLayout="row">
+  <mat-form-field fxFlexAlign="center" fxFlex="nogrow" [ngClass]="moveup" [formGroup]="questionGroup" (click)="setQG()">
+    <input readonly matInput [matDatepicker]="date" placeholder="{{ questionGroup.value.placeholder }}" [formControl]="momFCDate" (click)="date.open()" [min]="minDate" [max]="maxDate" type="text" />
+    <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
+    <mat-datepicker [disabled]="disabled" #date></mat-datepicker>
+    <mat-hint *ngIf="questionGroup.value.hint">
+      {{ questionGroup.value.hint }}
+    </mat-hint>
+    <mat-error *ngFor="let val of validators">
+      <span *ngIf="val.validator(questionGroup.controls.input)">{{ val.description }}</span>
+    </mat-error>
+  </mat-form-field>
+  <div fxFlex="nogrow" fxFlexAlign="center" fxFlexOffset="-10px" *ngIf="!disabled && momFCDate.status !== 'DISABLED'">
+    <button [ngClass]="moveup" matTooltip="Clear Date" [matTooltipPosition]="'right'" class="clearDate" color="warn" mat-button (click)="clearDate()" [disabled]="disabled">
+      Clear
+    </button>
+  </div>
+</div>

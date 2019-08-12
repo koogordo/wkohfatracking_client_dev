@@ -1,0 +1,70 @@
+<mat-card id="card" *ngIf="formGroup" [formGroup]="formGroup">
+  <mat-card-title class="cardtitle">
+    <div fxLayout="row" class="cardTitleInner">
+      <h3 fxFlex fxFlexAlign="center" class="title" *ngIf="visitedClient">{{ formGroup.value.name }}: {{ visitedClient.clientFName | name }} {{ visitedClient.clientLName | name }}</h3>
+      <div fxFlex class="subtitle" *ngIf="formGroup.value.description">- {{ formGroup.value.description }}</div>
+      <div fxFlex></div>
+      <div fxFlex="200px" fxFlexAlign="center" class="clientSelect">
+        <div *ngIf="allowedClients" fxLayout="row" fxLayoutGap="20px">
+          <div fxFlex="nogrow">Client:</div>
+          <mat-select fxFlex="nogrow" placeholder="Client" formControlName="client" [disabled]="!formID.startsWith('54blankForm')">
+            <mat-option [value]="getID(client.clientID)"> {{ client.clientFName }} {{ client.clientLName }} </mat-option>
+          </mat-select>
+        </div>
+      </div>
+    </div>
+  </mat-card-title>
+  <div fxLayout="row">
+    <!--<div fxFlex="nogrow" fxFlexAlign="center">
+      <button mat-icon-button (click)="prevTab()"><fa name="arrow-left"></fa></button>
+    </div>-->
+    <mat-card-content id="cardcontent" fxFlex #cardView>
+      <app-view-form
+        [formGroup]="formGroup"
+        [disabledNotes]="curStatus === 'submitted' || curStatus === 'action required'"
+        [disabled]="curStatus !== 'open'"
+        [cleared]="cleared"
+        [cardView]="cardViewRef"
+        [selectedIndex]="selectedIndex"
+        [showNotes]="true"
+        [clientID]="clientID"
+      ></app-view-form>
+    </mat-card-content>
+    <!--<div fxFlex="nogrow" fxFlexAlign="center">
+      <button mat-icon-button (click)="nextTab()"><fa name="arrow-right"></fa></button>
+
+    </div>-->
+  </div>
+
+  <mat-card-actions *ngIf="curStatus === 'queued'">
+    <div fxLayout="row">
+      <button
+        mat-raised-button
+        [disabled]="!formGroup.valid"
+        (click)="
+          confirmDialogue('sendBack', 'Send Back To Reviewers', 'Are you sure you would like to send this visit back to the reviewer?', 'Visit Was Not Sent Back', 'Visit Successfully Sent Back')
+        "
+      >
+        Send Back To Reviewers
+      </button>
+      <div fxFlex></div>
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="!formGroup.valid"
+        (click)="
+          confirmDialogue(
+            'commit',
+            'Permanent Commit',
+            'Are you sure you would like to make this visit permanent? If this is a termination form the client will be removed from their Outreach Specialist.',
+            'Visit Was Not Comitted',
+            'Visit Successfully Commited'
+          )
+        "
+      >
+        Commit Form
+      </button>
+    </div>
+  </mat-card-actions>
+</mat-card>
+<pre *ngIf="false">{{ formGroup.getRawValue() | json }}</pre>

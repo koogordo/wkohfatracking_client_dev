@@ -1,0 +1,127 @@
+<mat-card id="card" *ngIf="formGroup" [formGroup]="formGroup">
+  <mat-card-title class="cardtitle">
+    <div fxLayout="row" class="cardTitleInner">
+      <h3 fxFlex fxFlexAlign="center" class="title" *ngIf="visitedClient">{{ formGroup.value.name }}: {{ visitedClient.clientFName | name }} {{ visitedClient.clientLName | name }}</h3>
+      <div fxFlex class="subtitle" *ngIf="formGroup.value.description">- {{ formGroup.value.description }}</div>
+      <div fxFlex></div>
+      <div fxFlex="200px" fxFlexAlign="center" class="clientSelect">
+        <div *ngIf="allowedClients" fxLayout="row" fxLayoutGap="20px">
+          <!-- <div fxFlex="nogrow">Client:</div> -->
+          <!-- <mat-select fxFlex="nogrow" placeholder="Client" formControlName="client" [disabled]="!formID.startsWith('54blankForm')">
+            <mat-option *ngFor="let client of allowedClients;let i=index" [value]="getID(client.clientID)">
+              {{client.clientFName}} {{client.clientLName}}
+            </mat-option>
+          </mat-select> -->
+        </div>
+        <!-- <ng-container *ngIf="pastVisitForms"> -->
+        <button mat-raised-button color="primary" [matMenuTriggerFor]="pastVisitSelect" [disabled]="!pastVisitForms">
+          Previous Forms
+          <mat-icon>expand_more</mat-icon>
+        </button>
+        <mat-menu #pastVisitSelect="matMenu">
+          <button mat-menu-item *ngFor="let form of pastVisitForms" (click)="openPreviewDialog(form)">{{ getFormDate(form) }}</button>
+        </mat-menu>
+        <!-- </ng-container> -->
+      </div>
+    </div>
+  </mat-card-title>
+  <div fxLayout="row">
+    <!--<div fxFlex="nogrow" fxFlexAlign="center">
+      <button mat-icon-button (click)="prevTab()"><fa name="arrow-left"></fa></button>
+    </div>-->
+    <mat-card-content id="cardcontent" fxFlex #cardView>
+      <app-view-form
+        [formGroup]="formGroup"
+        [disabledNotes]="curStatus === 'submitted' || curStatus === 'reviewer pool' || curStatus === 'action required'"
+        [disabled]="curStatus !== 'open'"
+        [cleared]="cleared"
+        [cardView]="cardViewRef"
+        [selectedIndex]="selectedIndex"
+        [showNotes]="true"
+        [previewMode]="previewMode"
+        [formGroupCtx]="formGroup"
+        [clientID]="clientID"
+        [client]="client"
+      ></app-view-form>
+    </mat-card-content>
+    <!--<div fxFlex="nogrow" fxFlexAlign="center">
+      <button mat-icon-button (click)="nextTab()"><fa name="arrow-right"></fa></button>
+
+    </div>-->
+  </div>
+
+  <ng-container *ngIf="form && form.name !== 'New Family'">
+    <mat-card-actions *ngIf="curStatus === 'open' && state.queryParams.stagedVisit">
+      <div fxLayout="row">
+        <button mat-raised-button (click)="confirmDialogue('delete', 'Delete Visit', 'Are you sure you would like to delete this visit?', 'Visit Was Not Deleted', 'Visit Successfully Deleted')">
+          Delete Form
+        </button>
+        <!-- fxFlex empty div makes following buttons be on right -->
+        <div fxFlex></div>
+        <button mat-raised-button [disabled]="!formGroup.valid" (click)="confirmDialogue('save', 'Save Visit', 'Are you sure you would like to save?', 'Progress Not Saved', 'Progress Saved')">
+          Save Form
+        </button>
+      </div>
+    </mat-card-actions>
+
+    <mat-card-actions *ngIf="curStatus === 'open' && !state.queryParams.stagedVisit">
+      <div fxLayout="row">
+        <button mat-raised-button (click)="confirmDialogue('delete', 'Delete Visit', 'Are you sure you would like to delete this visit?', 'Visit Was Not Deleted', 'Visit Successfully Deleted')">
+          Delete Form
+        </button>
+        <!-- fxFlex empty div makes following buttons be on right -->
+        <div fxFlex></div>
+        <button mat-raised-button [disabled]="!formGroup.valid" (click)="confirmDialogue('save', 'Save Visit', 'Are you sure you would like to save?', 'Progress Not Saved', 'Progress Saved')">
+          Save Form
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="!formGroup.valid"
+          (click)="confirmDialogue('submit', 'Submit Visit', 'Are you sure you would like to submit this visit?', 'Visit Was Not Submitted', 'Visit Submitted')"
+        >
+          Submit Form
+        </button>
+      </div>
+    </mat-card-actions>
+
+    <!-- <mat-card-actions *ngIf="curStatus === 'action required'">
+    <div fxLayout="row">
+      <div fxFlex></div>
+     
+      <button mat-raised-button (click)="save(formGroup.getRawValue())">Save Form</button>
+      <button mat-raised-button color="primary" [disabled]="!formGroup.valid" (click)="submit(formGroup.getRawValue())">Submit
+        Form</button>
+    </div>
+  </mat-card-actions>  -->
+
+    <mat-card-actions *ngIf="curStatus === 'action required' || curStatus === 'submitted'">
+      <div fxLayout="row">
+        <div fxFlex></div>
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="!formGroup.valid"
+          (click)="confirmDialogue('pullback', 'Retrieve Visit', 'Are you sure you would like to pull this visit back?', 'Visit Not Pulled Back', 'Visit Successfully Pulled Back')"
+        >
+          Pull Back
+        </button>
+      </div>
+    </mat-card-actions>
+  </ng-container>
+  <ng-container *ngIf="form && form.name === 'New Family'">
+    <mat-card-actions>
+      <div fxLayout="row">
+        <div fxFlex></div>
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="!formGroup.valid"
+          (click)="confirmDialogue('saveFamily', 'Add Family', 'Are you sure you would like to add a new family?', 'Family Was Not Saved', 'Family Successfully Saved')"
+        >
+          Save Family
+        </button>
+      </div>
+    </mat-card-actions>
+  </ng-container>
+</mat-card>

@@ -1,0 +1,158 @@
+<div id="layoutContainer" fxLayout="row">
+  <div fxFlex="30%" id="leftCol">
+    <div id="queryBuilderContainer" fxLayout="column">
+      <mat-card fxFlex="1 1 auto" class="report-card">
+        <mat-card-header>
+          <mat-card-title>Report Generator</mat-card-title>
+          <mat-card-subtitle>Select date ranges and then select a report type.</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <form [formGroup]="reportFG">
+            <mat-form-field>
+              <input matInput [matDatepicker]="visitDateStartPicker" placeholder="From Visit Date" formControlName="visitDateStart" (click)="visitDateStartPicker.open()" />
+              <mat-datepicker-toggle matSuffix [for]="visitDateStartPicker"></mat-datepicker-toggle>
+              <mat-datepicker #visitDateStartPicker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput [matDatepicker]="visitDateEndPicker" placeholder="To Visit Date" formControlName="visitDateEnd" (click)="visitDateEndPicker.open()" />
+              <mat-datepicker-toggle matSuffix [for]="visitDateEndPicker"></mat-datepicker-toggle>
+              <mat-datepicker #visitDateEndPicker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field>
+              <input
+                matInput
+                [matDatepicker]="initialVisitDateStartPicker"
+                placeholder="From Initial Visit Date"
+                formControlName="initialVisitDateStart"
+                (click)="initialVisitDateStartPicker.open()"
+              />
+              <mat-datepicker-toggle matSuffix [for]="initialVisitDateStartPicker"></mat-datepicker-toggle>
+              <mat-datepicker #initialVisitDateStartPicker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field>
+              <input
+                matInput
+                [matDatepicker]="initialVisitDateEndPickerpicker"
+                placeholder="To Initial Visit Date"
+                formControlName="initialVisitDateEnd"
+                (click)="initialVisitDateEndPickerpicker.open()"
+              />
+              <mat-datepicker-toggle matSuffix [for]="initialVisitDateEndPickerpicker"></mat-datepicker-toggle>
+              <mat-datepicker #initialVisitDateEndPickerpicker></mat-datepicker>
+            </mat-form-field>
+          </form>
+          <button mat-button [matMenuTriggerFor]="reportSelectionMenu" [disabled]="!reportFG.valid">
+            Report Type
+            <mat-icon>expand_more</mat-icon>
+          </button>
+          <mat-menu #reportSelectionMenu>
+            <button mat-menu-item (click)="generatePregnancyReport()">Pregnancy Report</button>
+            <button mat-menu-item (click)="generateHvReport()">HV Report</button>
+            <button mat-menu-item (click)="generateHFAQuarterlyReport()">HFA Quarterly Report</button>
+            <button mat-menu-item (click)="generateDeltaGrantReport()">Delta Grant Report</button>
+          </mat-menu>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <div fxFlex="70%" id="centerCol">
+    <div fxLayout="column">
+      <form [formGroup]="clientLookUpForm" (ngSubmit)="onLookUpSubmit()" id="lookUpForm">
+        <mat-form-field appearance="outline">
+          <mat-label>Search</mat-label>
+          <input matInput placeholder="Find Client Visits" formControlName="query" />
+          <mat-icon matSuffix>search</mat-icon>
+          <!-- <mat-hint>Hint</mat-hint> -->
+        </mat-form-field>
+        <button mat-raised-button color="primary">Look Up</button>
+      </form>
+
+      <div fxLayout="row" *ngIf="client">
+        <h1 fxFlex>{{ client.firstName }} {{ client.lastName }}</h1>
+      </div>
+      <div fxLayout="row" *ngIf="client">
+        <form [formGroup]="filterFG" (ngSubmit)="onLookUpSubmit()" id="lookUpForm">
+          <mat-checkbox class="form-type-filter" formControlName="adultvisit">Adult Visit</mat-checkbox>
+          <mat-checkbox class="form-type-filter" formControlName="childvisit">Child Visit</mat-checkbox>
+          <mat-checkbox class="form-type-filter" formControlName="closure">Closure Form</mat-checkbox>
+          <mat-checkbox class="form-type-filter" formControlName="parentsurvey">Parent Survey</mat-checkbox>
+          <mat-checkbox class="form-type-filter" formControlName="missedvisit">Missed Visit</mat-checkbox>
+          <mat-form-field>
+            <input matInput placeholder="Outreach Specialist" formControlName="os" />
+          </mat-form-field>
+          <!-- <mat-radio-group formControlName="sortOrder">
+            <mat-radio-button value="sdnew->old">Newest To Oldest Submitted</mat-radio-button>
+            <mat-radio-button value="vdnew->old">Newest To Oldest Visit</mat-radio-button>
+            <mat-radio-button value="sdold->new">Oldest To Newest Submitted</mat-radio-button>
+            <mat-radio-button value="vdold->new">Oldest To Newest Visit</mat-radio-button>
+          </mat-radio-group> -->
+        </form>
+      </div>
+      <div fxLayout="row" *ngIf="client || family">
+        <ng-container *ngIf="client; else familyView">
+          <mat-tab-group id="visitOutletTabs">
+            <mat-tab>
+              <ng-template mat-tab-label>
+                Active Visits
+              </ng-template>
+              <mat-table [dataSource]="clientActiveForms" matSort class="mat-elevation-z8">
+                <ng-container matColumnDef="client">
+                  <mat-header-cell *matHeaderCellDef> Client </mat-header-cell>
+                  <mat-cell *matCellDef="let form"> {{ form.form.client }} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="name">
+                  <mat-header-cell *matHeaderCellDef> Form Name </mat-header-cell>
+                  <mat-cell *matCellDef="let form"> {{ form.form.name }} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="dateSubmitted">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Date Submitted </mat-header-cell>
+                  <mat-cell *matCellDef="let form"> {{ form.form.dateSubmitted }} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="visitDate">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Visit Date </mat-header-cell>
+                  <mat-cell *matCellDef="let form"> {{ form.form.visitDate }} </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns" [routerLink]="['/adminViewForm', row._id]" [queryParams]="{ visitClientID: row.form.client }"></mat-row>
+              </mat-table>
+            </mat-tab>
+            <mat-tab>
+              <ng-template mat-tab-label>
+                Archived Visits
+              </ng-template>
+              <mat-table [dataSource]="clientArchiveForms" class="mat-elevation-z8">
+                <ng-container matColumnDef="client">
+                  <mat-header-cell *matHeaderCellDef> Client </mat-header-cell>
+                  <mat-cell *matCellDef="let form"> {{ form.form.client }} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="name">
+                  <mat-header-cell *matHeaderCellDef> Form Name </mat-header-cell>
+                  <mat-cell *matCellDef="let form"> {{ form.form.name }} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="dateSubmitted">
+                  <mat-header-cell *matHeaderCellDef> Date Submitted </mat-header-cell>
+                  <mat-cell *matCellDef="let form"> {{ form.form.dateSubmitted }} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="visitDate">
+                  <mat-header-cell *matHeaderCellDef> Visit Date </mat-header-cell>
+                  <mat-cell *matCellDef="let form"> {{ form.form.visitDate }} </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns" (click)="viewForm(row)"></mat-row>
+              </mat-table>
+            </mat-tab>
+          </mat-tab-group>
+          <!-- <mat-card *ngFor="let visit of client.archivedForms">
+            <mat-card-title>{{ visit.form.name }}</mat-card-title>
+            <mat-card-subtitle>{{ getFormDate(visit) }}</mat-card-subtitle>
+
+            <mat-card-actions>
+              <button mat-raised-button color="primary" [routerLink]="['/adminViewForm', visit._id]">View Visit</button>
+            </mat-card-actions>
+          </mat-card> -->
+        </ng-container>
+        <ng-template #familyView></ng-template>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,66 @@
+<mat-card [formGroup]="sectionGroup" *ngIf="sectionGroup">
+  <br>
+  <mat-card-title>
+
+    <!--  mat-accordion> -->
+      <!-- <mat-expansion-panel> -->
+        <!-- <mat-expansion-panel-header> -->
+          <mat-panel-title>
+            <p *ngIf="sectionGroup.value.name || sectionGroup.value.description">Section: {{sectionGroup.value.name}}</p>
+            <p *ngIf="!sectionGroup.value.name && !sectionGroup.value.description">Section: (Nameless Section - Click to name)</p>
+          </mat-panel-title>
+          <!-- <mat-panel-description> -->
+            <p>{{sectionGroup.value.description}}</p>
+          <!-- </mat-panel-description>
+        </mat-expansion-panel-header> -->
+
+        <div fxLayout="column">
+          <mat-form-field fxFlex>
+            <input matInput placeholder="Section Name" formControlName="name" type="text" onClick="this.select();">
+          </mat-form-field>
+
+          <mat-form-field fxFlex>
+            <textarea matInput placeholder="Section Description" formControlName="description"></textarea>
+          </mat-form-field>
+        </div>
+      <!-- </mat-expansion-panel>
+       mat-accordion> -->
+
+  </mat-card-title>
+
+  <mat-card-content fxLayout="column">
+
+    <!-- < mat-accordion formArrayName="rows"> -->
+      <div *ngFor = "let row of sectionGroup['controls']['rows']['controls']; let i=index">
+
+        <!-- <mat-expansion-panel #expPanel>
+          <mat-expansion-panel-header [collapsedHeight]="'auto'" [expandedHeight]="'auto'" (click)="expPanel.expanded?openPanel(i):closePanel(i)">
+            <mat-panel-title> -->
+              <p>Row {{i+1}}:</p>
+            <!-- </mat-panel-title>
+            <mat-panel-description> -->
+              <div fxLayout="row" fxLayoutWrap>
+                <mat-list dense *ngFor="let column of row.controls.columns.controls; let j=index" fxFlex>
+                  <h5 matSubheader>Column {{j+1}}:</h5>
+                  <mat-list-item *ngFor="let question of column.controls.questions.controls">
+                    {{question.value.key}}
+                  </mat-list-item>
+                </mat-list>
+              </div>
+            <!-- </mat-panel-description> -->
+            <button mat-button class="close" matTooltip="Remove Row" [matTooltipPosition]="'right'" (click)="confirmDialogue('delete', 'Delete Row', 'Are you sure you want to delete?', i)" [disabled]="sectionGroup['controls']['rows']['controls'].length <= 1"><mat-icon>close</mat-icon></button>
+          <!-- </mat-expansion-panel-header> -->
+          <!-- <div *ngIf="expPanel.expanded"> -->
+            <app-edit-row [group]="row" [index]="index + ',rows,' + i"></app-edit-row> 
+          <!-- </div> -->
+
+        <!-- </mat-expansion-panel> -->
+
+      </div>
+    <!-- mat-accordion> -->
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-button (click)="confirmDialogue('add', 'Add Row', 'Add new row?')">Add New Row</button>
+  </mat-card-actions>
+</mat-card>

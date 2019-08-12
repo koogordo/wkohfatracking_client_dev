@@ -1,0 +1,31 @@
+<mat-card *ngIf="tabGroup">
+  <mat-card-title>
+    {{ tabGroup.value.name }}
+    <button mat-icon-button (click)="saveAsPdf()">
+      <mat-icon>print</mat-icon>
+    </button>
+  </mat-card-title>
+
+  <mat-card-subtitle>
+    {{ tabGroup.value.description }}
+  </mat-card-subtitle>
+  <mat-card-content>
+    <section [id]="tabGroup.getRawValue().name" style="padding: 10px;">
+      <div fxLayout="column">
+        <div fxFlex *ngFor="let section of tabGroup.controls.sections.controls; let i = index">
+          <app-view-section
+            [formGroupCtx]="formGroupCtx"
+            [group]="section"
+            [disabledNotes]="disabledNotes"
+            [disabled]="disabled"
+            [cleared]="cleared"
+            [index]="getIndex(i)"
+            [previewMode]="previewMode"
+            [client]="client"
+            [clientID]="clientID"
+          ></app-view-section>
+        </div>
+      </div>
+    </section>
+  </mat-card-content>
+</mat-card>

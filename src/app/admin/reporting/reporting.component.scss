@@ -1,0 +1,41 @@
+.report-card {
+  width: 100%;
+  // margin: 0px;
+  // padding: 5px;
+}
+#leftCol {
+  padding: 0px;
+  margin: 0px;
+}
+#queryBuilderContainer {
+  padding: 15px;
+}
+#centerCol {
+  border-left: 2px solid rgba(156, 39, 176, 0.62343543453454345);
+  padding: 15px;
+}
+.table-row:hover {
+  cursor: pointer;
+  background-color: rgba(160, 160, 160, 0.678);
+}
+
+.client-id-input {
+  width: 150px;
+  padding: 10px;
+}
+
+.client-name-input {
+  width: 227px;
+  padding: 15px;
+}
+#lookUpForm {
+  margin-bottom: 15px;
+}
+
+#visitOutletTabs {
+  width: 100%;
+}
+
+.form-type-filter {
+  margin-right: 10px;
+}

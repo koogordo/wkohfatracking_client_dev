@@ -1,0 +1,42 @@
+<div  fxLayout="row" fxLayoutGap="48px" fxLayoutWrap>
+  <div fxFlex="50" fxFlexOffset="24px" [formGroup]="tabGroup">
+    <div fxLayout="column">
+      <mat-form-field fxFlex>
+        <input matInput placeholder="Tab Name" formControlName="name" type="text" onClick="this.select();">
+      </mat-form-field>
+
+      <div fxFill></div>
+
+      <mat-form-field fxFlex>
+        <textarea matInput placeholder="Tab Description" formControlName="description"></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div fxFlex="50">
+
+    <p>Edit Sections:</p>
+
+    <mat-list>
+      <mat-list-item *ngFor="let section of tabGroup.value.sections; let i=index">
+        <div fxLayout="row" fxLayoutGap="12px">
+          <button mat-raised-button (click)="openSection(i)" fxFlex="none">{{section.name}}</button>
+          <button mat-button class="close" matTooltip="Remove Section" [matTooltipPosition]="'right'" fxFlex *ngIf="tabGroup.value.sections.length > 1" (click)="removeSection(i)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+
+      </mat-list-item>
+      <mat-list-item>
+
+        <button mat-raised-button (click)="addSection()">
+          <mat-icon>add</mat-icon>
+          Add Section
+        </button>
+      </mat-list-item>
+
+    </mat-list>
+
+  </div>
+
+</div>

@@ -1,0 +1,9 @@
+<mat-form-field [ngClass]="moveup" [formGroup]="questionGroup" (click)="setQG()">
+  <input matInput placeholder="{{questionGroup.value.placeholder}}" formControlName="input" type="time" [readonly]="disabled">
+  <mat-hint *ngIf="questionGroup.value.hint">
+    {{questionGroup.value.hint}}
+  </mat-hint>
+  <mat-error *ngFor="let val of validators">
+    <span *ngIf="val.validator(questionGroup.controls.input)">{{val.description}}</span>
+  </mat-error>
+</mat-form-field>

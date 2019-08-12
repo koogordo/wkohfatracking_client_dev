@@ -1,0 +1,38 @@
+mat-card{
+  padding-top:0;
+  .mat-card-title{
+
+    padding:0 24px;
+    background-color: whitesmoke;
+    width:calc(100%);
+    position: relative;
+    left:-24px;
+    font-size:unset!important;
+    .title{
+      font-size:24px;
+      line-height: 81.1px;;
+    }
+    .clientSelect{
+      padding-top:16px;
+    }
+  }
+  mat-card-content{
+    height: calc(100vh - 64px - 33px - 16px - 36px - 8px - 24px - 64px);
+    overflow: auto;
+    .close {
+      min-width: unset;
+      padding: 8px;
+      line-height: unset;
+      position:absolute;
+      left:calc(100% - 14px - 16px);
+    }
+    .new {
+      min-width: unset;
+      padding: 8px;
+      line-height: unset;
+      position: relative;
+      left:-36px;
+    }
+  }
+
+}

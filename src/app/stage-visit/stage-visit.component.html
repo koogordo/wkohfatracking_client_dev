@@ -1,0 +1,37 @@
+<section fxLayout="row" fxLayout.sm="column" id="mainLayout">
+  <div class="left-column">
+    <ng-container *ngIf="online">
+      <form [formGroup]="stageVisitForm" (ngSubmit)="stageVisitSubmit()" *ngIf="formState">
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="Visit Type" formControlName="formType">
+            <mat-option *ngFor="let option of formState.formTypeOptions" value="{{ option._id }}">{{ option.form.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="Client" formControlName="client">
+            <mat-option *ngFor="let option of formState.clientOptions" value="{{ option.clientID }}">{{ option.clientFName }} {{ option.clientLName }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-raised-button color="primary">Stage Visit</button>
+      </form>
+    </ng-container>
+  </div>
+
+  <div fxLayout="column" class="right-column">
+    <div fxFlex fxLayout="row wrap" fxLayoutGap="10px">
+      <mat-card *ngFor="let visit of stagedVisits">
+        <mat-card-title>{{ visit.client.clientFName }} {{ visit.client.clientLName }}</mat-card-title>
+        <mat-card-subtitle>{{ visit.form.name }}</mat-card-subtitle>
+        <mat-card-content>{{ formStatus(visit.form) }}</mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="primary" [disabled]="!online" (click)="submitStagedForm(visit._id)">Sync</button>
+          <button mat-button color="warn" (click)="deleteStagedVisit(visit._id)">Delete</button>
+          <a mat-button [routerLink]="['/viewForm', 'noID']" [queryParams]="{ stagedVisit: true, stagedVisitID: visit._id }">Go To Form</a>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <div fxFlex fxLayout="row wrap" class="offline-btns">
+      <button mat-raised-button color="primary" (click)="goOffline()">Go Offline</button>
+    </div>
+  </div>
+</section>

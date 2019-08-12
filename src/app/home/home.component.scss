@@ -1,0 +1,155 @@
+body,
+html {
+  height: 100%;
+}
+.mat-list[dense] .mat-list-item,
+.mat-nav-list[dense] .mat-list-item,
+.mat-selection-list[dense] .mat-list-item,
+.mat-list[dense] .mat-subheader,
+.mat-nav-list[dense] .mat-subheader,
+.mat-selection-list[dense] .mat-subheader {
+  min-height: 20px;
+  height: 25px;
+}
+
+.mat-list[dense],
+.mat-nav-list[dense],
+.mat-selection-list[dense] {
+  padding-bottom: 4px;
+}
+mat-panel-title {
+  p {
+    height: 16px;
+    margin: 0;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+.noshadow {
+  .mat-expansion-panel:not([class*='mat-elevation-z']) {
+    box-shadow: none;
+    border: 1px ridge;
+    border-bottom: 0;
+    &:last-of-type {
+      border-bottom: 1px ridge;
+    }
+  }
+}
+
+.client-names-row {
+  width: 40%;
+}
+.notification-icon {
+  margin-left: 5px;
+}
+.title-notification-icon {
+  margin-left: 15px;
+}
+
+.formTitle {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  font-weight: normal;
+}
+
+.formDate {
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.clientName {
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.form {
+  cursor: pointer;
+  &:hover {
+    background-color: #e0f2f1;
+  }
+  margin-top: 1%;
+  padding: 2%;
+  &:first-of-type {
+    margin-top: 0;
+  }
+  margin-left: 20px;
+}
+
+.mat-action-row {
+  border: 1px ridge;
+  border-bottom: 0;
+  display: flex;
+  flex-direction: row;
+  padding: 16px 24px 16px 24px;
+}
+
+.firstIcon {
+  margin-right: -4px;
+}
+.clientName {
+  margin-left: 20px;
+}
+
+.newFormButton {
+  text-align: center;
+}
+
+#sideNav {
+  height: 100%;
+  width: 20%;
+  padding: 0px 10px 0px 0px;
+}
+
+#sideNavContent {
+  height: 100%;
+  width: 80%;
+  padding: 3px 10px 0px 10px;
+}
+#reviewerSideNav {
+  height: 100% !important;
+  width: 15%;
+}
+
+#reviewerSideNavContent {
+  height: 100%;
+  width: 85%;
+  padding: 0px 10px 0px 10px;
+}
+.mainContainer {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.menu-item-suffix {
+  margin: auto 0px auto auto;
+}
+
+.client-view-card {
+  margin-top: 10px;
+}
+
+#noForms {
+  width: 60%;
+  margin: auto;
+  text-align: center;
+  color: rgba(80, 80, 80, 0.5);
+}
+
+.pink-border-right {
+  border-right: 2px solid rgba(156, 39, 176, 0.62343543453454345);
+}
+.pink-border-left {
+  border-left: 2px solid rgba(156, 39, 176, 0.62343543453454345);
+}
+
+.full-height-outlet {
+  height: 100%;
+}
+.active-link {
+  background-color: rgba(156, 39, 176, 0.25);
+}

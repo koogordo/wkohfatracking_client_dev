@@ -1,0 +1,22 @@
+.unresolved {
+  color: red;
+  padding-left: 24px;
+}
+
+.link-cursor:hover {
+  cursor: pointer;
+  background-color: rgba(80, 80, 80, 0.37586);
+}
+
+.tab-nav {
+  width: 100%;
+  height: 50px;
+  padding: 5px;
+}
+
+.tab-unresolved-icon {
+  font-size: 14px;
+  margin-left: -28px;
+  margin-right: 0px;
+  padding-right: 0px;
+}

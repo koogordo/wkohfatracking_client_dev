@@ -1,0 +1,233 @@
+<div *ngIf="questionGroup">
+  <div class="wrapper" fxLayout="row">
+    <div fxFlex>
+      <div *ngIf="questionGroup.value.labelPosition === 'top' || questionGroup.value.labelPosition === 'bottom'; then column; else row"></div>
+    </div>
+
+    <ng-template #column>
+      <div fxLayout="column">
+        <div fxFlex fxFlexAlign="start" *ngIf="questionGroup.value.labelPosition === 'top'">
+          <ng-container *ngTemplateOutlet="label"></ng-container>
+        </div>
+        <div fxFlex>
+          <ng-container *ngTemplateOutlet="questions"></ng-container>
+        </div>
+
+        <div fxFlex fxFlexAlign="start" *ngIf="questionGroup.value.labelPosition === 'bottom'">
+          <ng-container *ngTemplateOutlet="label"></ng-container>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template #row>
+      <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="10px">
+        <div fxFlexAlign="start" fxFlex="{{ !!questionGroup.value.labelWidth ? questionGroup.value.labelWidth : 'nogrow' }}" *ngIf="questionGroup.value.labelPosition === 'left'">
+          <ng-container *ngTemplateOutlet="label"></ng-container>
+        </div>
+        <div fxFlex>
+          <ng-container *ngTemplateOutlet="questions"></ng-container>
+        </div>
+
+        <div fxFlexAlign="start" fxFlex="{{ !!questionGroup.value.labelWidth ? questionGroup.value.labelWidth : 'nogrow' }}" *ngIf="questionGroup.value.labelPosition === 'right'">
+          <ng-container *ngTemplateOutlet="label"></ng-container>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+
+  <!--showNotes(questionGroup)-->
+  <ng-template #label>
+    <div fxLayout="row" (click)="setQG()" fxLayoutGap="5px">
+      <div fxFlex="nogrow" *ngIf="questionGroup.value.label || questionGroup.value.description">
+        <div id="label" [ngClass]="disabledNotes ? 'disabledNotes' : 'enabledNotes'" *ngIf="questionGroup.value.label" (click)="showNotes(questionGroup)">
+          <!-- <button mat-icon-button [disabled]="disabledNotes" ><mat-icon color="accent">note</mat-icon></button> -->
+          {{ questionGroup.value.label }}
+          <mat-icon *ngIf="resolvedNotes === 'unresolved'">chat</mat-icon>
+          <mat-icon *ngIf="resolvedNotes === 'resolved' && questionGroup.value.notes.length > 0">done</mat-icon>
+        </div>
+        <div id="description" [ngClass]="disabled ? 'formDisabled' : ''" *ngIf="questionGroup.value.description">
+          <p>{{ questionGroup.value.description }}</p>
+        </div>
+      </div>
+      <div fxFlex="nogrow" *ngIf="questionGroup.value.notes.length > 0" fxFlexAlign="center">
+        <p (click)="showNotes(questionGroup)">
+          <fa class="comment-icon" [ngClass]="resolvedNotes" name="comment-o"></fa>
+        </p>
+      </div>
+    </div>
+  </ng-template>
+
+  <!--DON'T PUT OR MODIFY ANYTHING BELOW THIS-->
+  <ng-template #questions>
+    <div fxLayout="row">
+      <div fxFlex>
+        <view-textbox
+          *ngIf="questionGroup.value.type === 'textbox'"
+          [group]="questionGroup"
+          [cleared]="cleared"
+          [disabled]="disabled"
+          [disabledNotes]="disabledNotes"
+          [index]="index"
+          [moveup]="moveup"
+          [client]="client"
+        ></view-textbox>
+        <view-textarea
+          *ngIf="questionGroup.value.type === 'textarea'"
+          [group]="questionGroup"
+          [cleared]="cleared"
+          [disabled]="disabled"
+          [disabledNotes]="disabledNotes"
+          [index]="index"
+          [moveup]="moveup"
+          [client]="client"
+        ></view-textarea>
+        <view-tel
+          *ngIf="questionGroup.value.type === 'tel'"
+          [group]="questionGroup"
+          [cleared]="cleared"
+          [disabled]="disabled"
+          [disabledNotes]="disabledNotes"
+          [index]="index"
+          [moveup]="moveup"
+          [client]="client"
+        ></view-tel>
+        <view-ssn
+          *ngIf="questionGroup.value.type === 'ssn'"
+          [group]="questionGroup"
+          [cleared]="cleared"
+          [disabled]="disabled"
+          [disabledNotes]="disabledNotes"
+          [index]="index"
+          [moveup]="moveup"
+          [client]="client"
+        ></view-ssn>
+        <view-number
+          *ngIf="questionGroup.value.type === 'number'"
+          [group]="questionGroup"
+          [cleared]="cleared"
+          [disabled]="disabled"
+          [disabledNotes]="disabledNotes"
+          [index]="index"
+          [moveup]="moveup"
+          [client]="client"
+        ></view-number>
+        <view-dropdown
+          *ngIf="questionGroup.value.type === 'dropdown'"
+          [group]="questionGroup"
+          [cleared]="cleared"
+          [disabled]="disabled"
+          [disabledNotes]="disabledNotes"
+          [index]="index"
+          [client]="client"
+        ></view-dropdown>
+        <view-checkbox
+          *ngIf="questionGroup.value.type === 'checkbox'"
+          [group]="questionGroup"
+          [cleared]="cleared"
+          [disabled]="disabled"
+          [disabledNotes]="disabledNotes"
+          [index]="index"
+          [client]="client"
+        ></view-checkbox>
+        <view-slide-toggle
+          *ngIf="questionGroup.value.type === 'slide-toggle'"
+          [group]="questionGroup"
+          [disabled]="disabled"
+          [disabledNotes]="disabledNotes"
+          [cleared]="cleared"
+          [index]="index"
+          [client]="client"
+        ></view-slide-toggle>
+        <view-checkboxes
+          *ngIf="questionGroup.value.type === 'checkboxes'"
+          [group]="questionGroup"
+          [disabled]="disabled"
+          [disabledNotes]="disabledNotes"
+          [cleared]="cleared"
+          [index]="index"
+          [client]="client"
+        ></view-checkboxes>
+        <view-radio-buttons
+          *ngIf="questionGroup.value.type === 'radio-buttons'"
+          [group]="questionGroup"
+          [disabled]="disabled"
+          [disabledNotes]="disabledNotes"
+          [cleared]="cleared"
+          [index]="index"
+          [client]="client"
+        ></view-radio-buttons>
+        <view-date
+          *ngIf="questionGroup.value.type === 'date'"
+          [group]="questionGroup"
+          [disabled]="disabled"
+          [disabledNotes]="disabledNotes"
+          [cleared]="cleared"
+          [index]="index"
+          [moveup]="moveup"
+          [previewMode]="previewMode"
+          [client]="client"
+        ></view-date>
+        <view-question-array
+          *ngIf="questionGroup.value.type === 'question-array'"
+          [group]="questionGroup"
+          [disabled]="disabled"
+          [disabledNotes]="disabledNotes"
+          [cleared]="cleared"
+          [index]="index"
+          [client]="client"
+        ></view-question-array>
+        <view-question-group
+          *ngIf="questionGroup.value.type === 'question-group'"
+          [previewMode]="previewMode"
+          [formGroupCtx]="formGroupCtx"
+          [group]="questionGroup"
+          [disabled]="disabled"
+          [disabledNotes]="disabledNotes"
+          [cleared]="cleared"
+          [index]="index"
+          [client]="client"
+        ></view-question-group>
+        <view-time
+          *ngIf="questionGroup.value.type === 'time'"
+          [group]="questionGroup"
+          [disabled]="disabled"
+          [disabledNotes]="disabledNotes"
+          [cleared]="cleared"
+          [index]="index"
+          [moveup]="moveup"
+          [client]="client"
+        ></view-time>
+        <view-input-map
+          *ngIf="questionGroup.value.type === 'input-map'"
+          [formGroupCtx]="formGroupCtx"
+          [group]="questionGroup"
+          [disabled]="disabled"
+          [disabledNotes]="disabledNotes"
+          [cleared]="cleared"
+          [index]="index"
+          [previewMode]="previewMode"
+          [client]="client"
+        ></view-input-map>
+        <view-slider *ngIf="questionGroup.value.type === 'slider'" [group]="questionGroup" [disabled]="disabled" [disabledNotes]="disabledNotes" [cleared]="cleared" [index]="index"></view-slider>
+        <view-states *ngIf="questionGroup.value.type === 'states'" [group]="questionGroup" [disabled]="disabled" [disabledNotes]="disabledNotes" [cleared]="cleared" [index]="index"></view-states>
+        <view-contact-log
+          *ngIf="questionGroup.value.type === 'contact-log'"
+          [group]="questionGroup"
+          [disabled]="disabled"
+          [disabledNotes]="disabledNotes"
+          [cleared]="cleared"
+          [index]="index"
+          [client]="client"
+        ></view-contact-log>
+        <signature-field
+          *ngIf="questionGroup.value.type === 'signature'"
+          [group]="questionGroup"
+          [disabled]="disabled"
+          [disabledNotes]="disabledNotes"
+          [cleared]="cleared"
+          [index]="index"
+          [client]="client"
+        ></signature-field>
+      </div></div
+  ></ng-template>
+</div>

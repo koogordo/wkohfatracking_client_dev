@@ -1,0 +1,12 @@
+<div id="sigPad">
+  <signature-pad [options]="options" (onBeginEvent)="drawBegin()" (onEndEvent)="drawComplete()"> </signature-pad>
+</div>
+<div fxLayout="row">
+  <div fxFlex>
+    <button mat-raised-button color="primary" (click)="edit()" [disabled]="editable">Edit</button>
+  </div>
+  <div fxFlex></div>
+  <div fxFlex>
+    <button mat-raised-button color="primary" (click)="clear()" [disabled]="!clearable">Clear</button>
+  </div>
+</div>

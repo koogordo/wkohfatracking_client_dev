@@ -1,0 +1,21 @@
+
+<div *ngIf="questionGroup.value.options.length === optionsFA.length" class="checkboxgroup" [formGroup]="optionsFA" fxLayout="row" style="padding-bottom:10px">
+
+  <div fxFlex="{{questionGroup.value.offset}}"></div>
+  <div fxFlex="nogrow">
+    <div fxLayout="{{(questionGroup.value.orientation === 'horizontal')?'row wrap':'column'}}" fxLayoutGap="10px">
+      <div *ngFor="let opt of questionGroup.controls.options.controls; let i = index;" fxFlex="nogrow">
+        <div fxLayout="{{(questionGroup.value.specifyPosition === 'right')?'row':'column'}}" class="checkboxHeight" fxLayoutGap="5px" fxLayoutAlign="{{(questionGroup.value.specifyPosition === 'right')?'':''}}" [ngClass]="questionGroup.value.orientation === 'horizontal'?'checkboxRowSpacing':''">
+          <mat-checkbox (click)="setQG()" fxFlexAlign="top" formControlName="{{i}}" fxFlex="{{(questionGroup.value.orientation === 'horizontal' || (questionGroup.getRawValue().input[i] && opt.value.specify))?'nogrow':'nogrow'}}">{{opt.value.value}}</mat-checkbox>
+          <div *ngIf="questionGroup.getRawValue().input[i] && opt.value.specify" fxFlex fxFlexAlign="top">
+            <app-view-row [moveup]="'moveup'" [disabledNotes]="disabledNotes" [disabled]="disabled" [group]="row" *ngFor="let row of opt['controls']['rows']['controls'];let j=index" [index]="getIndex(i,j)"></app-view-row>
+          </div>
+          <div *ngIf="!questionGroup.getRawValue().input[i] && opt.value.specify && questionGroup.getRawValue().value === 'Other'" fxFlex fxFlexAlign="top">
+            <app-view-row [moveup]="'moveup'" [disabledNotes]="disabledNotes" [cleared]="true" [disabled]="true" [group]="row" *ngFor="let row of opt['controls']['rows']['controls'];let j=index" [index]="getIndex(i,j)"></app-view-row>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

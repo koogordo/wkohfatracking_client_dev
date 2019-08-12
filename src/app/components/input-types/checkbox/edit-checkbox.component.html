@@ -1,0 +1,71 @@
+<div [formGroup]="questionGroup">
+  <mat-form-field fxFlex="49%">
+    <mat-select placeholder="Specify Position" formControlName="specifyPosition">
+      <mat-option [value]="'right'">Right</mat-option>
+      <mat-option [value]="'bottom'">Bottom</mat-option>
+
+    </mat-select>
+  </mat-form-field>
+</div>
+
+
+
+<h4>Input Values:</h4>
+
+<div *ngFor="let option of questionGroup.controls['options'].controls; let x=index" [formGroup]="option">
+  <div fxLayout="row" fxLayoutAlign="space-around center">
+    <mat-form-field>
+      <input matInput type="text" placeholder="Key" formControlName="key">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="text" placeholder="Value" formControlName="value">
+    </mat-form-field>
+    <mat-slide-toggle formControlName="specify">Specify?</mat-slide-toggle>
+
+  </div>
+  <div class="pad-bottom" *ngIf="option.value.specify">
+    <div fxLayout="row">
+      <div fxFlex="90" *ngIf="option.value.rows.length > 0" fxFlexOffset="5">
+        <!-- <mat-accordion> -->
+          <div *ngFor = "let row of option['controls']['rows']['controls']; let i=index">
+
+            <!-- <mat-expansion-panel> -->
+              <!-- <mat-expansion-panel-header [collapsedHeight]="'auto'" [expandedHeight]="'auto'" > -->
+                <!-- <mat-panel-title> -->
+                  <p>Row {{i+1}}:</p>
+                <!-- </mat-panel-title> -->
+                <!-- <mat-panel-description> -->
+                  <div fxLayout="row" fxLayoutWrap>
+                    <mat-list dense *ngFor="let column of row.controls.columns.controls; let j=index" fxFlex>
+                      <h5 matSubheader>Column {{j+1}}:</h5>
+                      <mat-list-item *ngFor="let question of column.controls.questions.controls">
+                        {{question.value.key}}
+                      </mat-list-item>
+                    </mat-list>
+                  </div>
+                <!-- </mat-panel-description> -->
+                <button mat-button class="close" matTooltip="Remove Row" [matTooltipPosition]="'right'" (click)="removeRow(x,i)" [disabled]="option['controls']['rows']['controls'].length <= 0"><mat-icon>close</mat-icon></button>
+              <!-- </mat-expansion-panel-header> -->
+              <div>
+                <app-edit-row [group]="row" [index]="'' + ',rows,'+i"></app-edit-row>
+              </div>
+
+            <!-- </mat-expansion-panel> -->
+
+          </div>
+        <!-- mat-accordion> -->
+        <br>
+      </div>
+    </div>
+
+    <div fxLayout="row">
+      <button id="add" mat-button (click)="addRow(x)" fxFlexOffset="5">Add Row</button>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+

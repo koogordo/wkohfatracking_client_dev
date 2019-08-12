@@ -1,0 +1,5 @@
+<div fxLayout="row" fxLayoutGap="1%" *ngFor="let row of questionGroup.controls['rows'].controls; let i = index">
+  <div fxFlex>
+    <app-view-row [previewMode]="previewMode" [formGroupCtx]="formGroupCtx" [group]="row" [disabledNotes]="disabledNotes" [disabled]="disabled" [moveup]="false" [index]="getIndex(i)"></app-view-row>
+  </div>
+</div>

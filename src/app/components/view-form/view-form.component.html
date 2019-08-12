@@ -1,0 +1,42 @@
+<mat-tab-group *ngIf="formGroup" [style.maxHeight.px]="!setHeight ? '' : setMaxHeight()" [(selectedIndex)]="selectedIndex">
+  <mat-tab *ngFor="let tab of formGroup.controls.tabs.controls; let i = index">
+    <ng-template mat-tab-label>
+      <div fxLayout="row">
+        <div fxFlex>{{ tab.value.name | uppercase }}</div>
+        <div fxFlex="nogrow" fxFlexAlign="center" *ngIf="showNotes && unresolvedNotesInTab[i].length != 0" class="unresolved" [matMenuTriggerFor]="unresolved">
+          <mat-icon class="tab-unresolved-icon">feedback</mat-icon>
+          <mat-menu #unresolved="matMenu">
+            <mat-list>
+              <h3 mat-subheader>Questions with Notes:</h3>
+              <mat-list-item class="link-cursor" *ngFor="let q of unresolvedNotesInTab[i]" (click)="openNotes(q.questionGroup)">
+                <mat-icon mat-list-icon>chat</mat-icon>
+                <p mat-line>{{ q.key }}</p>
+                <p mat-line>({{ q.count }} note{{ q.count > 1 ? 's' : '' }})</p>
+              </mat-list-item>
+            </mat-list>
+          </mat-menu>
+        </div>
+      </div>
+    </ng-template>
+    <div fxLayout="column">
+      <!-- <button mat-icon-button (click)="saveAsPdf()"><mat-icon>print</mat-icon></button> -->
+      <!-- <div id="tabOutlet{{ i }}"> -->
+      <app-view-tab
+        [group]="tab"
+        [disabledNotes]="disabledNotes"
+        [disabled]="disabled"
+        [index]="[{ type: 'tab', index: i }]"
+        [previewMode]="previewMode"
+        [formGroupCtx]="formGroupCtx"
+        [clientID]="clientID"
+        [client]="client"
+      ></app-view-tab>
+      <!-- </div> -->
+      <div fxLayout="row" class="tab-nav">
+        <button mat-mini-fab color="primary" (click)="prevTab()"><mat-icon>arrow_back</mat-icon></button>
+        <div fxFlex></div>
+        <button mat-mini-fab color="primary" (click)="nextTab()"><mat-icon>arrow_forward</mat-icon></button>
+      </div>
+    </div>
+  </mat-tab>
+</mat-tab-group>

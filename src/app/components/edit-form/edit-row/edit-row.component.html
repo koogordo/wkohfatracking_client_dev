@@ -1,0 +1,30 @@
+<div [formGroup]="rowGroup" fxLayout="column" *ngIf="rowGroup">
+
+    <mat-form-field fxFlex>
+      <input matInput placeholder="Column Gap Width" formControlName="columnGap" type="text" onClick="this.select();">
+      <mat-hint>
+        Gap width is the space between columns in the row
+      </mat-hint>
+    </mat-form-field>
+
+    <br>
+      <mat-tab-group [dynamicHeight]="true" [(selectedIndex)]="selectedIndex">
+        <mat-tab *ngFor="let column of rowGroup.controls.columns.controls; let i=index">
+          <ng-template mat-tab-label>
+            <span>Column {{i+1}}</span>
+            <button matTooltip="Remove Column" mat-button class="close" [disabled]="rowGroup.controls.columns.controls.length <= 1" (click)="confirmDialogue('delete', 'Delete Column', 'Are you sure you want to delete?', i)">
+              <mat-icon>close</mat-icon>
+            </button>
+
+          </ng-template>
+
+          <app-edit-column [group]="column" [index]="index + ',columns,'+i" ></app-edit-column>
+        </mat-tab>
+
+        <mat-tab disabled>
+          <ng-template mat-tab-label>
+            <button class="new" matTooltip="Add Column" [matTooltipPosition]="'right'" mat-raised-button color="primary" (click)="confirmDialogue('add', 'Add Column', 'Add new column?')"> <mat-icon>add</mat-icon> </button>
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+</div>

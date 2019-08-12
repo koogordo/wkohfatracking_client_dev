@@ -1,0 +1,785 @@
+<!-- <mat-sidenav-container>
+  <mat-sidenav>
+
+  </mat-sidenav>
+  <mat-sidenav-content>
+
+  </mat-sidenav-content>
+</mat-sidenav-container> -->
+<!-- <mat-card *ngIf="blankForms && adultBlankForms && childBlankForms && clientFamilies">
+  <mat-card-content>
+    <div fxLayout="row">
+      <div fxFlex="100"> -->
+<!-- mat-accordion>  multi="true" [displayMode]="'flat'" class="mat-elevation-z0"> -->
+<!-- <ng-container  *ngFor="let family of clientFamilies" #expPanel>  -->
+<!-- <mat-expansion-panel-header [expandedHeight]="'auto'" [collapsedHeight]="'auto'"> -->
+<!-- <mat-panel-title>
+                <p>Family ID: {{family.familyID}}</p>
+              </mat-panel-title>
+              <mat-panel-description>
+                <div class="client-names-row" fxLayout="row">
+                  <mat-list dense fxFlex *ngIf="family.child.length>0">
+                    <h5 matSubheader>
+                      Children
+                    </h5>
+                    <mat-list-item fxLayout="column" *ngFor="let client of family.child">
+                      <span>
+                        {{client.clientFName + ' ' + client.clientLName}}
+                      </span>
+                      <span *ngIf="isActionRequiredOS(client)[0]" class="notification-icon">
+                        <fa-icon *ngFor="let status of isActionRequiredOS(client)[1]" [icon]="statusIconOS[status.value]['icon']"></fa-icon>
+                      </span>
+                    </mat-list-item>
+                  </mat-list>
+                  <mat-list dense fxFlex *ngIf="family.adult.length>0">
+                    <h5 matSubheader>
+                      Parents
+                    </h5>
+                    <mat-list-item fxLayout="column" *ngFor="let client of family.adult">
+                      <span>
+                        {{client.clientFName + ' ' + client.clientLName}}
+                      </span>
+                      <span *ngIf="isActionRequiredOS(client)[0]" class="notification-icon">
+                        <fa-icon *ngFor="let status of isActionRequiredOS(client)[1]" [icon]="statusIconOS[status.value]['icon']"></fa-icon>
+                      </span>
+                    </mat-list-item>
+                  </mat-list>
+                </div> -->
+<!-- TODO: Logo for form to review here somehwere-->
+<!-- </mat-panel-description> -->
+<!-- </mat-expansion-panel-header> -->
+<!-- <ng-template matExpansionPanelContent>
+                <div class="mat-action-row" fxLayout="row wrap" fxLayoutAlign="space-around center">
+                    <div fxFlex="30" fxFlex.lt-sm="100" fxFlexAlign="start">
+                      <a [style.width]="'100%'" mat-raised-button [routerLink]="['/addChild',family.familyID]">
+                        <fa name="child"></fa>
+                        Add Child
+                      </a>
+                    </div>
+                    <div fxFlex="30" fxFlex.lt-sm="100" fxFlexAlign="start">
+                      <a [style.width]="'100%'" mat-raised-button [routerLink]="['/addParent',family.familyID]">
+                        <fa class="firstIcon" name="female"></fa>
+                        <fa name="male"></fa>
+                        Add Parent
+                      </a>
+                    </div>
+                    <div fxFlex="30" fxFlex.lt-sm="100" fxFlexAlign="start">
+                      <a [style.width]="'100%'" mat-raised-button [routerLink]="['/contactLog',family.familyID]">
+                        <fa name="address-book"></fa>
+                        View Contact Log
+                      </a>
+                    </div>
+                  </div> -->
+<!-- mat-accordion>  multi="true" [displayMode]="'flat'" class="noshadow"> -->
+<!-- <ng-template #formList let-clients="clients">
+                  <div *ngFor="let client of clients">
+                    <div fxLayout="column">
+                      <div fxFlex>
+                        <h3 class="clientName">
+                          {{client.clientFName}} {{client.clientLName}}
+                        </h3>
+                      </div>
+                      <div fxFlex="">
+                        <div fxLayout="row wrap" fxLayoutAlign="space-around center">
+                          <div fxFlex="30" fxFlex.lt-sm="100" fxFlexAlign="start">
+                            <div *ngFor="let form of client.forms.ActiveForms" fxLayout="row">
+                              <div fxFlex>
+                                <div matTooltip="{{statusIconOS[form.form.status[form.form.status.length - 1].value]['text']}}"
+                                  matTooltipShowDelay="500" [matTooltipPosition]="'above'" class="form" (click)="goToForm(form)"
+                                  fxLayout="row" fxLayoutGap="10px">
+                                  <div fxFlex="nogrow" fxFlexAlign="center" [style.color]="statusIconOS[form.form.status[form.form.status.length - 1].value]['color']">
+                                    <fa-icon [icon]="statusIconOS[form.form.status[form.form.status.length - 1].value]['icon']"></fa-icon>
+                                  </div>
+                                  <div fxFlex="nogrow" fxFlexAlign="center">
+                                    <h4 class="formTitle">
+                                      {{form.form.name}}
+                                    </h4>
+                                    <p class="formDate">
+                                      {{getFormDate(form)}}
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div fxFlex="30" fxFlex.lt-sm="100" fxFlexAlign="start">
+                            <div *ngFor="let form of client.forms.TransitionForms" fxLayout="row">
+                              <div fxFlex>
+                                <div matTooltip="{{statusIconOS[form.form.status[form.form.status.length - 1].value]['text']}}"
+                                  matTooltipShowDelay="500" [matTooltipPosition]="'above'" class="form" (click)="goToForm(form)"
+                                  fxLayout="row" fxLayoutGap="10px">
+                                  <div fxFlex="nogrow" fxFlexAlign="center" [style.color]="statusIconOS[form.form.status[form.form.status.length - 1].value]['color']">
+                                    <fa-icon [icon]="statusIconOS[form.form.status[form.form.status.length - 1].value]['icon']"></fa-icon>
+                                  </div>
+                                  <div fxFlex="nogrow" fxFlexAlign="center">
+                                    <h4 class="formTitle">
+                                      {{form.form.name}}
+                                    </h4>
+                                    <p class="formDate">
+                                      {{getFormDate(form)}}
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div fxFlex="30" fxFlex.lt-sm="100" fxFlexAlign="start">
+                            <div *ngFor="let form of client.forms.LockedForms" fxLayout="row">
+                              <div fxFlex>
+                                <div matTooltip="{{statusIconOS[form.form.status[form.form.status.length - 1].value]['text']}}"
+                                  matTooltipShowDelay="500" [matTooltipPosition]="'above'" class="form" (click)="goToForm(form)"
+                                  fxLayout="row" fxLayoutGap="10px">
+                                  <div fxFlex="nogrow" fxFlexAlign="center" [style.color]="statusIconOS[form.form.status[form.form.status.length - 1].value]['color']">
+                                    <fa-icon [icon]="statusIconOS[form.form.status[form.form.status.length - 1].value]['icon']"></fa-icon>
+                                  </div>
+                                  <div fxFlex="nogrow" fxFlexAlign="center">
+                                    <h4 class="formTitle">
+                                      {{form.form.name}}
+                                    </h4>
+                                    <p class="formDate">
+                                      {{getFormDate(form)}}
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+                <mat-expansion-panel [expanded]="true">
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      <p>Children</p>
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <div>
+                    <ng-container *ngTemplateOutlet="formList; context:{'clients': family.child}">
+                    </ng-container>
+                  </div>
+                </mat-expansion-panel>
+                <mat-expansion-panel [expanded]="true">
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Parents
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <div>
+                    <ng-container *ngTemplateOutlet="formList; context:{'clients': family.adult}">
+                    </ng-container>
+                  </div>
+                </mat-expansion-panel> -->
+<!-- <mat-accordion> -->
+<!-- </ng-template>
+          </ng-container>  -->
+<!-- <mat-accordion> -->
+<!-- </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+
+<mat-card *ngIf="reviewerOSes">
+  <mat-card-content>
+    <div fxLayout="row">
+      <div fxFlex="100"> -->
+
+<!-- mat-accordion>  multi="true" [displayMode]="'flat'" class="mat-elevation-z0"> -->
+
+<!-- <mat-expansion-panel *ngFor="let OS of reviewerOSes">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <p>OS: {{OS.OSUsername}}</p>
+                <span class="title-notification-icon" *ngIf="OS.actionRequired[0]">
+                <fa-icon  icon="exclamation-triangle"></fa-icon>
+                </span>
+                
+              </mat-panel-title>
+            </mat-expansion-panel-header> -->
+
+<!-- mat-accordion>  multi="true" [displayMode]="'flat'" class="mat-elevation-z0">
+               <mat-expansion-panel [expanded]="false" *ngFor="let family of OS.families" #expPanel>
+                <mat-expansion-panel-header [expandedHeight]="'auto'" [collapsedHeight]="'auto'">
+                  <mat-panel-title>
+                    <p>Family ID: {{family.familyID}}</p>
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    <div class="client-names-row" fxLayout="row">
+                      <mat-list dense fxFlex *ngIf="family.child.length>0">
+                        <h5 matSubheader>
+                          Children
+                        </h5>
+                        <mat-list-item fxLayout="column" *ngFor="let client of family.child">
+                          <span>
+                            {{client.clientFName + ' ' + client.clientLName}}
+                          </span>
+                          <span *ngIf="isActionRequiredRev(client)[0]" class="notification-icon">
+                            <fa-icon *ngFor="let status of isActionRequiredRev(client)[1]" [icon]="statusIconOS[status.value]['icon']"></fa-icon>
+                          </span>
+                        </mat-list-item>
+                      </mat-list>
+                      <mat-list dense fxFlex *ngIf="family.adult.length>0">
+                        <h5 matSubheader>
+                          Parents
+                        </h5>
+                        <mat-list-item fxLayout="column" *ngFor="let client of family.adult">
+                          <span>
+                            {{client.clientFName + ' ' + client.clientLName}}
+                          </span>
+                          <span *ngIf="isActionRequiredRev(client)[0]" class="notification-icon">
+                            <fa-icon *ngFor="let status of isActionRequiredRev(client)[1]" [icon]="statusIconOS[status.value]['icon']"></fa-icon>
+                          </span>
+                        </mat-list-item>
+                      </mat-list>
+                    </div>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div class="mat-action-row" fxLayout="row wrap" fxLayoutAlign="space-around center">
+                  <div fxFlex="30" fxFlex.lt-sm="100" fxFlexAlign="start">
+
+                  </div>
+                  <div fxFlex="30" fxFlex.lt-sm="100" fxFlexAlign="start">
+
+                  </div>
+                  <div fxFlex="30" fxFlex.lt-sm="100" fxFlexAlign="start">
+                    <a [style.width]="'100%'" mat-raised-button [routerLink]="['/contactLog',family.familyID]">
+                      <fa name="address-book"></fa>
+                      View Contact Log
+                    </a>
+                  </div>
+                </div>
+                <div> -->
+<!-- mat-accordion>  multi="true" [displayMode]="'flat'" class="noshadow"> -->
+
+<!-- <ng-template #formList let-clients="clients">
+                      <div *ngFor="let client of clients">
+                        <div fxLayout="column">
+                          <div fxFlex>
+                            <h3 class="clientName">
+                              {{client.clientFName}} {{client.clientLName}}
+                            </h3>
+                          </div>
+                          <div fxFlex="">
+
+                            <div fxLayout="row wrap" fxLayoutAlign="space-around center">
+                              <div fxFlex="30" fxFlex.lt-sm="100" fxFlexAlign="start">
+                                <div *ngFor="let form of client.forms.TransitionForms" fxLayout="row">
+                                  <div fxFlex>
+                                    <div matTooltip="{{statusIconRev[form.form.status[form.form.status.length - 1].value]['text']}}"
+                                      matTooltipShowDelay="500" [matTooltipPosition]="'above'" class="form" (click)="goToForm(form, OS.OSUsername)"
+                                      fxLayout="row" fxLayoutGap="10px">
+                                      <div fxFlex="nogrow" fxFlexAlign="center" [style.color]="statusIconRev[form.form.status[form.form.status.length - 1].value]['color']">
+
+                                        <fa-icon [icon]="statusIconRev[form.form.status[form.form.status.length - 1].value]['icon']"></fa-icon>
+
+                                      </div>
+                                      <div fxFlex="nogrow" fxFlexAlign="center">
+                                        <h4 class="formTitle">
+                                          {{form.form.name}}
+                                        </h4>
+                                        <p class="formDate">
+                                          {{getFormDate(form)}}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div fxFlex="30" fxFlex.lt-sm="100" fxFlexAlign="start">
+                                <div *ngFor="let form of client.forms.ReviewForms" fxLayout="row">
+                                  <div fxFlex>
+                                    <div matTooltip="{{statusIconRev[form.form.status[form.form.status.length - 1].value]['text']}}"
+                                      matTooltipShowDelay="500" [matTooltipPosition]="'above'" class="form" (click)="goToForm(form, OS.OSUsername)"
+                                      fxLayout="row" fxLayoutGap="10px">
+                                      <div fxFlex="nogrow" fxFlexAlign="center" [style.color]="statusIconRev[form.form.status[form.form.status.length - 1].value]['color']">
+
+                                        <fa-icon [icon]="statusIconRev[form.form.status[form.form.status.length - 1].value]['icon']"></fa-icon>
+
+                                      </div>
+                                      <div fxFlex="nogrow" fxFlexAlign="center">
+                                        <h4 class="formTitle">
+                                          {{form.form.name}}
+                                        </h4>
+                                        <p class="formDate">
+                                          {{getFormDate(form)}}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                </div>
+                              </div>
+                              <div fxFlex="30" fxFlex.lt-sm="100" fxFlexAlign="start">
+                                <div *ngFor="let form of client.forms.CompleteForms" fxLayout="row">
+                                  <div fxFlex>
+                                    <div matTooltip="{{statusIconRev[form.form.status[form.form.status.length - 1].value]['text']}}"
+                                      matTooltipShowDelay="500" [matTooltipPosition]="'above'" class="form" (click)="goToForm(form, OS.OSUsername)"
+                                      fxLayout="row" fxLayoutGap="10px">
+                                      <div fxFlex="nogrow" fxFlexAlign="center" [style.color]="statusIconRev[form.form.status[form.form.status.length - 1].value]['color']">
+
+                                        <fa-icon [icon]="statusIconRev[form.form.status[form.form.status.length - 1].value]['icon']"></fa-icon>
+
+                                      </div>
+                                      <div fxFlex="nogrow" fxFlexAlign="center">
+                                        <h4 class="formTitle">
+                                          {{form.form.name}}
+                                        </h4>
+                                        <p class="formDate">
+                                          {{getFormDate(form)}}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-template>
+
+                    <mat-expansion-panel [expanded]="true">
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          <p>Children</p>
+                        </mat-panel-title>
+                      </mat-expansion-panel-header>
+                      <div>
+                        <ng-container *ngTemplateOutlet="formList;context:{'clients':family.child}">
+                        </ng-container>
+                      </div> -->
+<!-- </mat-expansion-panel> -->
+<!-- <mat-expansion-panel [expanded]="true">
+
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          Parents
+                        </mat-panel-title>
+                      </mat-expansion-panel-header>
+
+                      <div>
+                        <ng-container *ngTemplateOutlet="formList;context:{'clients':family.adult}">
+                        </ng-container>
+                      </div> -->
+<!-- </mat-expansion-panel> -->
+<!-- mat-accordion> -->
+<!-- </div> -->
+<!-- </mat-expansion-panel> -->
+<!-- </mat-accordion> -->
+<!-- </mat-expansion-panel> -->
+<!-- </mat-accordion> -->
+<!-- </div>
+    </div>
+  </mat-card-content>
+</mat-card> -->
+
+<!-- 
+    <mat-sidenav-container class="sidenav-container">
+        <mat-sidenav mode="side" opened> -->
+
+<!-- </mat-sidenav> -->
+<!-- <mat-sidenav-content>
+      
+        </mat-sidenav-content>
+      </mat-sidenav-container> -->
+
+<!-- family template that will dynamically display the information for each family as the family context (selected family) changes -->
+<ng-template #formList let-clients="clients">
+  <div *ngFor="let client of clients">
+    <ng-container *ngIf="!client.terminated">
+      <mat-card class="client-view-card">
+        <mat-card-header>
+          <mat-card-title>{{ client.clientFName }} {{ client.clientLName }}</mat-card-title>
+          <div fxFlex></div>
+          <button mat-icon-button [matMenuTriggerFor]="newFormActionMenu" matTooltip="More New Form Options" matTooltipPosition="above" [disabled]="checkForTerminationForm(client)">
+            <mat-icon>more_horiz</mat-icon>
+          </button>
+          <mat-menu #newFormActionMenu="matMenu">
+            <ng-container *ngIf="client.clientType === 'adult'; else childForms">
+              <a mat-menu-item [routerLink]="['/editParent', client.clientID]">Edit Client</a>
+              <a mat-menu-item *ngFor="let form of adultBlankForms" [routerLink]="['/viewForm', form._id]" [queryParams]="{ client: client.clientID, returnFamily: familyContext.familyID }">{{
+                form.form.name
+              }}</a>
+            </ng-container>
+            <ng-template #childForms>
+              <a mat-menu-item [routerLink]="['/editChild', client.clientID]">Edit Client</a>
+              <a mat-menu-item *ngFor="let form of childBlankForms" [routerLink]="['/viewForm', form._id]" [queryParams]="{ client: client.clientID, returnFamily: familyContext.familyID }">{{
+                form.form.name
+              }}</a>
+            </ng-template>
+          </mat-menu>
+        </mat-card-header>
+        <mat-card-content>
+          <ng-container
+            *ngIf="
+              (client.forms.ActiveForms && client.forms.ActiveForms.length > 0) ||
+                (client.forms.LockedForms && client.forms.LockedForms.length > 0) ||
+                (client.forms.TransitionForms && client.forms.TransitionForms.length > 0);
+              else noForms
+            "
+          >
+            <!-- forms in transition -->
+            <div fxFlex="">
+              <div fxLayout="row wrap" fxLayoutAlign="space-around center">
+                <div fxFlex="30" fxFlex.lt-sm="100" fxFlexAlign="start">
+                  <div *ngFor="let form of client.forms.ActiveForms" fxLayout="row">
+                    <div fxFlex>
+                      <div
+                        matTooltip="{{ statusIconOS[form.form.status[form.form.status.length - 1].value]['text'] }}"
+                        matTooltipShowDelay="500"
+                        [matTooltipPosition]="'above'"
+                        class="form"
+                        [routerLink]="['/viewForm', form._id]"
+                        [queryParams]="{ client: client.clientID, returnFamily: familyContext.familyID }"
+                        fxLayout="row"
+                        fxLayoutGap="10px"
+                      >
+                        <div fxFlex="nogrow" fxFlexAlign="center" [style.color]="statusIconOS[form.form.status[form.form.status.length - 1].value]['color']">
+                          <fa-icon [icon]="statusIconOS[form.form.status[form.form.status.length - 1].value]['icon']"></fa-icon>
+                        </div>
+                        <div fxFlex="nogrow" fxFlexAlign="center">
+                          <h4 class="formTitle">
+                            {{ form.form.name }}
+                          </h4>
+                          <p class="formDate">
+                            {{ getFormDate(form) }}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div fxFlex="30" fxFlex.lt-sm="100" fxFlexAlign="start">
+                  <div *ngFor="let form of client.forms.TransitionForms" fxLayout="row">
+                    <div fxFlex>
+                      <div
+                        matTooltip="{{ statusIconOS[form.form.status[form.form.status.length - 1].value]['text'] }}"
+                        matTooltipShowDelay="500"
+                        [matTooltipPosition]="'above'"
+                        class="form"
+                        [routerLink]="['/viewForm', form._id]"
+                        [queryParams]="{ client: client.clientID, returnFamily: familyContext.familyID }"
+                        fxLayout="row"
+                        fxLayoutGap="10px"
+                      >
+                        <div fxFlex="nogrow" fxFlexAlign="center" [style.color]="statusIconOS[form.form.status[form.form.status.length - 1].value]['color']">
+                          <fa-icon [icon]="statusIconOS[form.form.status[form.form.status.length - 1].value]['icon']"></fa-icon>
+                        </div>
+                        <div fxFlex="nogrow" fxFlexAlign="center">
+                          <h4 class="formTitle">
+                            {{ form.form.name }}
+                          </h4>
+                          <p class="formDate">
+                            {{ getFormDate(form) }}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- forms for review -->
+                <div fxFlex="30" fxFlex.lt-sm="100" fxFlexAlign="start">
+                  <div *ngFor="let form of client.forms.LockedForms" fxLayout="row">
+                    <div fxFlex>
+                      <div
+                        matTooltip="{{ statusIconOS[form.form.status[form.form.status.length - 1].value]['text'] }}"
+                        matTooltipShowDelay="500"
+                        [matTooltipPosition]="'above'"
+                        class="form"
+                        [routerLink]="['/viewForm', form._id]"
+                        [queryParams]="{ client: client.clientID, returnFamily: familyContext.familyID }"
+                        fxLayout="row"
+                        fxLayoutGap="10px"
+                      >
+                        <div fxFlex="nogrow" fxFlexAlign="center" [style.color]="statusIconOS[form.form.status[form.form.status.length - 1].value]['color']">
+                          <fa-icon [icon]="statusIconOS[form.form.status[form.form.status.length - 1].value]['icon']"></fa-icon>
+                        </div>
+                        <div fxFlex="nogrow" fxFlexAlign="center">
+                          <h4 class="formTitle">
+                            {{ form.form.name }}
+                          </h4>
+                          <p class="formDate">
+                            {{ getFormDate(form) }}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- complete forms -->
+              </div>
+            </div>
+          </ng-container>
+          <ng-template #noForms>
+            <h4 id="noForms">Client Has No Active Forms</h4>
+          </ng-template>
+        </mat-card-content>
+        <mat-card-actions>
+          <a
+            *ngIf="formMap && childBlankForms && adultBlankForms"
+            mat-stroked-button
+            color="primary"
+            [disabled]="checkForTerminationForm(client)"
+            [routerLink]="!checkForTerminationForm(client) ? ['/viewForm', client.clientType === 'adult' ? formMap.get('Adult Visit')._id : formMap.get('Child Visit')._id] : null"
+            [queryParams]="{ client: client.clientID, returnFamily: familyContext.familyID }"
+            >Start New Visit</a
+          >
+        </mat-card-actions>
+      </mat-card>
+    </ng-container>
+  </div>
+</ng-template>
+
+<ng-template #reviewerOSFamilyView let-clients="clients">
+  <div *ngFor="let client of clients" class="full-height-outlet">
+    <ng-container *ngIf="!client.terminated">
+      <mat-card class="client-view-card">
+        <mat-card-header>
+          <mat-card-title>{{ client.clientFName }} {{ client.clientLName }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <ng-container
+            *ngIf="
+              (client.forms.TransitionForms && client.forms.TransitionForms.length > 0) ||
+                (client.forms.CompleteForms && client.forms.CompleteForms.length > 0) ||
+                (client.forms.ReviewForms && client.forms.ReviewForms.length > 0);
+              else noForms
+            "
+          >
+            <!-- forms in transition -->
+            <div fxFlex="">
+              <div fxLayout="row wrap" fxLayoutAlign="space-around center">
+                <div fxFlex="30" fxFlex.lt-sm="100" fxFlexAlign="start">
+                  <div *ngFor="let form of client.forms.TransitionForms" fxLayout="row">
+                    <div fxFlex>
+                      <div
+                        matTooltip="{{ statusIconRev[form.form.status[form.form.status.length - 1].value]['text'] }}"
+                        matTooltipShowDelay="500"
+                        [matTooltipPosition]="'above'"
+                        class="form"
+                        [routerLink]="['/revViewForm', form._id]"
+                        [queryParams]="{ OS: osContext.OSUsername, returnFamily: this.familyOfReviewedOSContext.familyID }"
+                        fxLayout="row"
+                        fxLayoutGap="10px"
+                      >
+                        <div fxFlex="nogrow" fxFlexAlign="center" [style.color]="statusIconRev[form.form.status[form.form.status.length - 1].value]['color']">
+                          <fa-icon [icon]="statusIconRev[form.form.status[form.form.status.length - 1].value]['icon']"></fa-icon>
+                        </div>
+                        <div fxFlex="nogrow" fxFlexAlign="center">
+                          <h4 class="formTitle">
+                            {{ form.form.name }}
+                          </h4>
+                          <p class="formDate">
+                            {{ getFormDate(form) }}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- forms for review -->
+                <div fxFlex="30" fxFlex.lt-sm="100" fxFlexAlign="start">
+                  <div *ngFor="let form of client.forms.CompleteForms" fxLayout="row">
+                    <div fxFlex>
+                      <div
+                        matTooltip="{{ statusIconRev[form.form.status[form.form.status.length - 1].value]['text'] }}"
+                        matTooltipShowDelay="500"
+                        [matTooltipPosition]="'above'"
+                        class="form"
+                        [routerLink]="['/revViewForm', form._id]"
+                        [queryParams]="{ OS: osContext.OSUsername, returnFamily: this.familyOfReviewedOSContext.familyID }"
+                        fxLayout="row"
+                        fxLayoutGap="10px"
+                      >
+                        <div fxFlex="nogrow" fxFlexAlign="center" [style.color]="statusIconRev[form.form.status[form.form.status.length - 1].value]['color']">
+                          <fa-icon [icon]="statusIconRev[form.form.status[form.form.status.length - 1].value]['icon']"></fa-icon>
+                        </div>
+                        <div fxFlex="nogrow" fxFlexAlign="center">
+                          <h4 class="formTitle">
+                            {{ form.form.name }}
+                          </h4>
+                          <p class="formDate">
+                            {{ getFormDate(form) }}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- complete forms -->
+                <div fxFlex="30" fxFlex.lt-sm="100" fxFlexAlign="start">
+                  <div *ngFor="let form of client.forms.ReviewForms" fxLayout="row">
+                    <div fxFlex>
+                      <div
+                        matTooltip="{{ statusIconRev[form.form.status[form.form.status.length - 1].value]['text'] }}"
+                        matTooltipShowDelay="500"
+                        [matTooltipPosition]="'above'"
+                        class="form"
+                        [routerLink]="['/revViewForm', form._id]"
+                        [queryParams]="{ OS: osContext.OSUsername, returnFamily: this.familyOfReviewedOSContext.familyID }"
+                        fxLayout="row"
+                        fxLayoutGap="10px"
+                      >
+                        <div fxFlex="nogrow" fxFlexAlign="center" [style.color]="statusIconRev[form.form.status[form.form.status.length - 1].value]['color']">
+                          <fa-icon [icon]="statusIconRev[form.form.status[form.form.status.length - 1].value]['icon']"></fa-icon>
+                        </div>
+                        <div fxFlex="nogrow" fxFlexAlign="center">
+                          <h4 class="formTitle">
+                            {{ form.form.name }}
+                          </h4>
+                          <p class="formDate">
+                            {{ getFormDate(form) }}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <ng-template #noForms>
+            <h4 id="noForms">Client Has No Active Forms</h4>
+          </ng-template>
+        </mat-card-content>
+      </mat-card>
+    </ng-container>
+  </div>
+</ng-template>
+
+<!-- Reviewer Dashboard? -->
+<ng-template #osView let-os="os">
+  <div class="mainContainer" fxLayout="row">
+    <section fxFlex="1 1 auto" fxFlexOrder="1" id="sideNav">
+      <form [formGroup]="searchForm">
+        <mat-form-field appearance="outline">
+          <mat-label>Search Families</mat-label>
+          <input matInput formControlName="query" (keyup)="filterFamilies()" />
+          <mat-icon matSuffix>search</mat-icon>
+          <mat-hint *ngIf="familyNotFound" color="warn">Family not found, please check the name and try again.</mat-hint>
+        </mat-form-field>
+      </form>
+      <button
+        mat-menu-item
+        *ngFor="let family of filteredFamilies"
+        color="primary"
+        [routerLink]="['/home']"
+        [queryParams]="{ OS: os.OSUsername, returnFamily: family.familyID }"
+        routerLinkActive="active-link"
+      >
+        <mat-icon color="accent" class="menu-item-suffix" *ngIf="familyHasActiveForms(family); else noActiveForms">person_pin_circle</mat-icon>
+        <ng-template #noActiveForms><mat-icon color="accent" class="menu-item-suffix">radio_button_unchecked</mat-icon></ng-template>
+        {{ family.familyID }}: {{ family.clientFName }} {{ family.clientLName }}
+      </button>
+    </section>
+    <section fxFlex="1 1 auto" fxFlexOrder="2" id="sideNavContent">
+      <mat-toolbar>
+        <span>Family of {{ familyOfReviewedOSContext.clientFName }} {{ familyOfReviewedOSContext.clientLName }}</span>
+      </mat-toolbar>
+      <!-- template outlet for family adults -->
+      <h3>Adults</h3>
+      <mat-divider></mat-divider>
+      <div class="full-height-outlet">
+        <ng-container *ngTemplateOutlet="reviewerOSFamilyView; context: { clients: familyOfReviewedOSContext.adult }"> </ng-container>
+      </div>
+      <!-- template outlet for family children -->
+      <h3>Children</h3>
+      <mat-divider></mat-divider>
+      <div class="full-height-outlet">
+        <ng-container *ngTemplateOutlet="reviewerOSFamilyView; context: { clients: familyOfReviewedOSContext.child }"> </ng-container>
+      </div>
+    </section>
+  </div>
+</ng-template>
+
+<!-- OS Dashboard -->
+<div class="mainContainer" fxLayout="row" *ngIf="isOS && familyContext && childBlankForms.length > 0 && adultBlankForms.length > 0">
+  <section fxFlex="1 1 auto" fxFlexOrder="1" id="sideNav" class="pink-border-right">
+    <form [formGroup]="searchForm">
+      <mat-form-field appearance="outline">
+        <mat-label>Search Families</mat-label>
+        <input matInput formControlName="query" (keyup)="filterFamilies()" />
+        <mat-icon matSuffix>search</mat-icon>
+        <mat-hint *ngIf="familyNotFound" color="warn">Family not found, please check the name and try again.</mat-hint>
+      </mat-form-field>
+    </form>
+    <button mat-menu-item *ngFor="let family of filteredFamilies" color="primary" [routerLink]="['/home']" [queryParams]="{ returnFamily: family.familyID }" routerLinkActive="active-link">
+      <mat-icon color="accent" class="menu-item-suffix" *ngIf="familyHasActiveForms(family); else noActiveForms">person_pin_circle</mat-icon>
+      <ng-template #noActiveForms><mat-icon color="accent" class="menu-item-suffix">radio_button_unchecked</mat-icon></ng-template>
+      {{ family.familyID }}: {{ family.clientFName }} {{ family.clientLName }}
+    </button>
+  </section>
+  <section fxFlex="1 1 auto" fxFlexOrder="2" id="sideNavContent">
+    <mat-toolbar>
+      <span>Family of {{ familyContext.clientFName }} {{ familyContext.clientLName }}</span>
+      <span fxFlex></span>
+      <a mat-button [routerLink]="['/addParent', familyContext.familyID]" [queryParams]="{ returnFamily: familyContext.familyID }">
+        Add Parent
+        <mat-icon color="accent">add_circle_outline</mat-icon>
+      </a>
+      <a mat-button [routerLink]="['/addChild', familyContext.familyID]" [queryParams]="{ returnFamily: familyContext.familyID }">
+        Add Child
+        <mat-icon color="accent">add_circle_outline</mat-icon>
+      </a>
+      <a mat-button [routerLink]="['/contactLog', familyContext.familyID]" [queryParams]="{ returnFamily: familyContext.familyID }">
+        Contact Methods
+        <mat-icon color="accent">contacts</mat-icon>
+      </a>
+      <!-- <a mat-button [routerLink]="['/familyArchiveView', familyContext.familyID]" [queryParams]="{ osID: databaseService.activeUser.getValue().getName() }">
+        Permanent Visits
+        <mat-icon color="accent">folder</mat-icon>
+      </a> -->
+    </mat-toolbar>
+    <!-- template outlet for family adults -->
+    <h3>Adults</h3>
+    <mat-divider></mat-divider>
+    <div>
+      <ng-container *ngTemplateOutlet="formList; context: { clients: familyContext.adult }"> </ng-container>
+    </div>
+    <!-- template outlet for family children -->
+    <h3>Children</h3>
+    <mat-divider></mat-divider>
+    <div>
+      <ng-container *ngTemplateOutlet="formList; context: { clients: familyContext.child }"> </ng-container>
+    </div>
+  </section>
+</div>
+
+<div class="mainContainer" fxLayout="row" *ngIf="isReviewer && reviewerOSes && formMap">
+  <section fxFlex="1 1 auto" fxFlexOrder="1" id="reviewerSideNav" class="pink-border-right">
+    <!-- <form [formGroup]="searchForm" (keyup.Enter)="searchForFamily()">
+        <mat-form-field appearance="outline">
+          <mat-label>Search OSes</mat-label>
+          <input matInput formControlName="query">
+          <mat-icon matSuffix>search</mat-icon>
+          <mat-hint *ngIf="familyNotFound" color="warn">OS not found, please check the name and try again.</mat-hint>
+        </mat-form-field>
+      </form> -->
+    <button
+      mat-menu-item
+      *ngFor="let os of reviewerOSes"
+      color="primary"
+      [routerLink]="['/home']"
+      [queryParams]="{ OS: os.OSUsername, returnFamily: os.families[0].familyID }"
+      routerLinkActive="active-link"
+    >
+      {{ os.OSUsername }}
+      <span fxFlex></span>
+      <mat-icon color="accent" class="menu-item-suffix">perm_identity</mat-icon>
+    </button>
+  </section>
+  <!-- this section outputs an os view, this will be the os view of the current os context-->
+  <section fxFlex="1 1 auto" fxFlexOrder="2" id="reviewerSideNavContent">
+    <div>
+      <ng-container *ngTemplateOutlet="osView; context: { os: osContext }"> </ng-container>
+    </div>
+  </section>
+</div>

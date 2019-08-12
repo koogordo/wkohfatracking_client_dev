@@ -1,0 +1,66 @@
+<!-- Not Authenticated Toolbar-->
+<mat-toolbar *ngIf="!loginStatus" color="primary">
+  <a mat-button [routerLink]="['/home']">Home</a>
+</mat-toolbar>
+
+<!-- Reviewer Toolbar -->
+<mat-toolbar color="primary" *ngIf="isReviewer && loginStatus">
+  <a mat-button [routerLink]="['/home']" [queryParams]="queryParams">Home</a>
+  <div fxFlex></div>
+  <button mat-button [matMenuTriggerFor]="userMenu">{{ activeUsername }} <fa name="user"></fa></button>
+  <mat-menu #userMenu="matMenu">
+    <a mat-menu-item [routerLink]="['/manageUser', user.getID()]" *ngIf="user">Manage Account</a>
+    <a mat-menu-item (click)="logout()">Logout</a>
+  </mat-menu>
+</mat-toolbar>
+
+<!-- OS Toolbar -->
+<mat-toolbar *ngIf="isOS && loginStatus" color="primary">
+  <a mat-button [routerLink]="['/home']" [queryParams]="queryParams" [disabled]="!buttonsOnline">Home</a>
+  <a *ngIf="newFamilyForm" mat-button [routerLink]="['/viewForm', newFamilyForm._id]" [disabled]="!buttonsOnline">Add Family</a>
+  <a mat-button [routerLink]="['/stageVisit']">Offline Visits</a>
+  <div fxFlex></div>
+  <button mat-button [matMenuTriggerFor]="userMenu" [disabled]="!buttonsOnline"><mat-icon>account_box</mat-icon> {{ activeUsername }}</button>
+  <mat-menu #userMenu="matMenu">
+    <a mat-menu-item [routerLink]="['/manageUser', user.getID()]" *ngIf="user">Manage Account</a>
+    <a mat-menu-item (click)="logout()">Logout</a>
+  </mat-menu>
+</mat-toolbar>
+
+<!-- Admin Toolbar -->
+<mat-toolbar color="primary" *ngIf="isAdmin && loginStatus">
+  <a mat-button [routerLink]="['/home']">Home</a>
+  <!-- <a mat-button routerLink="/os-management">User Management</a>
+    <a mat-button routerLink="/family-management">Family Management</a> -->
+  <a mat-button routerLink="/reporting">Reporting</a>
+
+  <button mat-button *ngIf="allUsers" [matMenuTriggerFor]="usersMenu">
+    Users
+  </button>
+  <mat-menu #usersMenu="matMenu">
+    <a mat-menu-item [routerLink]="['/manageUser', 'addNew']">Add User<mat-icon>add</mat-icon></a>
+    <a mat-menu-item *ngFor="let doc of allUsers" [routerLink]="['/manageUser', doc._id]">{{ doc.name }}</a>
+  </mat-menu>
+
+  <!-- <button mat-button *ngIf="allReviewGroups" [matMenuTriggerFor]="reviewGroupsMenu">
+    Review Groups
+  </button>
+  <mat-menu #reviewGroupsMenu="matMenu">
+    <a mat-menu-item [routerLink]="['/manageReviewGroups', 'addNew']">Add Group <mat-icon>add</mat-icon></a>
+    <a mat-menu-item *ngFor="let doc of allReviewGroups" [routerLink]="['/manageReviewGroups', doc._id]">{{ doc._id }}</a>
+  </mat-menu> -->
+
+  <button mat-button *ngIf="blankForms.length > 0" [matMenuTriggerFor]="editFormsMenu">
+    Edit Form
+  </button>
+  <mat-menu #editFormsMenu="matMenu">
+    <a mat-menu-item *ngFor="let form of allForms" [routerLink]="['/editForm', form._id]">{{ form.form.name }}</a>
+  </mat-menu>
+  <a mat-button routerLink="/createForm"> Build Form <mat-icon>add</mat-icon> </a>
+  <div fxFlex></div>
+  <button mat-button [matMenuTriggerFor]="userMenu">{{ activeUsername }} <fa name="user"></fa></button>
+  <mat-menu #userMenu="matMenu">
+    <a mat-menu-item [routerLink]="['/manageUser', user.getID()]" *ngIf="user">Manage Account</a>
+    <a mat-menu-item (click)="logout()">Logout</a>
+  </mat-menu>
+</mat-toolbar>

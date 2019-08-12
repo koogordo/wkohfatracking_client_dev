@@ -1,0 +1,35 @@
+<div *ngIf="questionGroup.value.specifyPosition === 'bottom'; then bottom; else right"></div>
+
+<ng-template #bottom>
+  <div fxLayout="column">
+    <div fxFlex>
+      <ng-container *ngTemplateOutlet="question"></ng-container>
+    </div>
+
+    <div fxFlex *ngIf="spec">
+      <ng-container *ngTemplateOutlet="specify"></ng-container>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #right>
+  <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="10px">
+    <div fxFlex>
+      <ng-container *ngTemplateOutlet="question"></ng-container>
+    </div>
+
+    <div fxFlex="nogrow" *ngIf="spec">
+      <ng-container *ngTemplateOutlet="specify"></ng-container>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #specify>
+  <app-view-row [group]="row" *ngFor="let row of getRows()"></app-view-row>
+</ng-template>
+
+<ng-template #question>
+  <div class="wrapper" (click)="setQG()" [formGroup]="questionGroup" fxLayout="column">
+    <mat-slide-toggle formControlName="input" (change)="checkSpecify()" fxFlex> </mat-slide-toggle>
+  </div>
+</ng-template>

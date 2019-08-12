@@ -1,0 +1,13 @@
+mat-card{
+
+  .close{
+    min-width: unset;
+    padding: 8px;
+    line-height: unset;
+    position: absolute;
+    left: calc(100% - 14px - 32px - 8px);
+    z-index: 99;
+  }
+}
+
+

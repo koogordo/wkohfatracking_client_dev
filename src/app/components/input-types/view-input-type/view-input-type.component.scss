@@ -1,0 +1,21 @@
+.comment-icon {
+  cursor: pointer;
+}
+.resolved {
+  color: blue;
+}
+.unresolved {
+  color: red;
+}
+
+#label.disabledNotes {
+  cursor: unset;
+  color: unset;
+}
+#label.enabledNotes:hover {
+  cursor: pointer;
+}
+#label {
+  margin: 10px 0;
+  color: #009688;
+}

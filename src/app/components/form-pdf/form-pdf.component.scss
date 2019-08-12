@@ -1,0 +1,72 @@
+#pdfContainer {
+  height: 100%;
+  width: 77%;
+  margin: auto;
+}
+#header {
+  margin-top: 25px;
+  height: 100px;
+  width: 100%;
+  padding: 10px 10px 10px 10px;
+  border-bottom: solid 3px;
+}
+.header-section {
+  height: 100%;
+}
+#formNameHeader {
+  margin: 0px 0px 5px 0px;
+}
+// #clientNameHeader {
+//     margin: 0px;
+// }
+// #submittedDate {
+
+// }
+#visitDate {
+  margin: 0px 0px 5px 0px;
+}
+#clientName {
+  margin: 0px;
+}
+#clientID {
+  margin: 0px;
+}
+#familyID {
+  margin: 0px 0px 5px 0px;
+}
+// #primaryAdult {
+
+// }
+.pdf-header-part {
+  text-align: center;
+}
+
+.tab {
+}
+
+.row {
+  height: 100px;
+  width: 60%;
+}
+.column {
+  border: solid 1px rgba(40, 40, 40, 0.456);
+  padding: 5px;
+}
+.form-label {
+  height: 30px;
+  width: 100px;
+  margin: 0px;
+  margin: 0px;
+  padding: 5px;
+}
+.col-left,
+.col-right {
+  padding: 10px;
+}
+.page-action-btn {
+  position: fixed;
+}
+
+.pad-top {
+  padding-top: 50px;
+}

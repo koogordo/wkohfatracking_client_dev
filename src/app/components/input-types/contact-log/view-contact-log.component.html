@@ -1,0 +1,43 @@
+<div fxLayout="row wrap">
+  <div fxFlex="100%" *ngFor="let question of questionGroup.controls.questions.controls; let i = index">
+    <div fxLayout="row" fxLayoutGap="20px">
+      <div fxFlex="200px">
+        <app-view-input-type [group]="getDateQG(i)" [disabled]="disabled || !!getUserName(i)" [cleared]="cleared" [index]="getDateIndex(i)"></app-view-input-type>
+      </div>
+      <div fxFlex="100px" fxFlexAlign="center" *ngIf="getUserName(i)">
+        Username:
+      </div>
+      <div fxFlex="100px" fxFlexAlign="center" *ngIf="getUserName(i)">
+        {{ getUserName(i) }}
+      </div>
+    </div>
+
+    <div fxLayout="row" fxLayoutGap="20px">
+      <div fxFlex="400px">
+        <app-view-input-type [group]="getNotesQG(i)" [disabled]="disabled || !!getUserName(i)" [cleared]="cleared" [index]="getNotesIndex(i)"></app-view-input-type>
+      </div>
+    </div>
+
+    <div fxLayout="row">
+      <div fxFlex="400px">
+        <div fxLayout="row" fxLayoutGap="20px">
+          <div fxFlex></div>
+          <div fxFlex="nogrow" *ngIf="!getUserName(i)">
+            <div fxFlex="nogrow" *ngIf="!getUserName(i)">
+              <button mat-raised-button (click)="removeContactNote(i)">Cancel</button>
+            </div>
+          </div>
+          <div fxFlex="nogrow" *ngIf="!getUserName(i)">
+            <button mat-raised-button color="primary" (click)="submitNote(i)">Submit Note</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div fxLayout="row">
+  <div fxFlex="nogrow">
+    <button mat-button (click)="addContactNote()">Add Contact Note</button>
+  </div>
+</div>

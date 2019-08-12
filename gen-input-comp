@@ -1,0 +1,58 @@
+#!/bin/bash
+
+words=$(echo $1 | tr "-" "\n")
+
+for word in $words
+do
+    word="$(tr '[:lower:]' '[:upper:]' <<< ${word:0:1})${word:1}"
+    capWords=$capWords$word
+done
+
+hyphWords=$1
+compDesc=$2
+inputType=$3
+
+mkdir src/app/components/input-types/$hyphWords
+
+ng g component components/input-types/$hyphWords/edit-$hyphWords --flat=true
+ng g component components/input-types/$hyphWords/view-$hyphWords --flat=true
+rm -r src/app/components/input-types/$hyphWords/*
+
+cp input-comp-template/component.html src/app/components/input-types/$hyphWords/edit-$hyphWords.component.html
+cp input-comp-template/component.scss src/app/components/input-types/$hyphWords/edit-$hyphWords.component.scss
+cp input-comp-template/component.html src/app/components/input-types/$hyphWords/view-$hyphWords.component.html
+cp input-comp-template/component.scss src/app/components/input-types/$hyphWords/view-$hyphWords.component.scss
+cp input-comp-template/edit-component.ts src/app/components/input-types/$hyphWords/edit-$hyphWords.component.ts
+cp input-comp-template/view-component.ts src/app/components/input-types/$hyphWords/view-$hyphWords.component.ts
+cp input-comp-template/index.ts src/app/components/input-types/$hyphWords/index.ts
+
+perl -pi -e 's/!!capWords!!/'$capWords'/g' src/app/components/input-types/$hyphWords/view-$hyphWords.component.ts
+perl -pi -e 's/!!hyphWords!!/'$hyphWords'/g' src/app/components/input-types/$hyphWords/view-$hyphWords.component.ts
+perl -pi -e 's/!!capWords!!/'$capWords'/g' src/app/components/input-types/$hyphWords/edit-$hyphWords.component.ts
+perl -pi -e 's/!!hyphWords!!/'$hyphWords'/g' src/app/components/input-types/$hyphWords/edit-$hyphWords.component.ts
+perl -pi -e 's/!!hyphWords!!/'$hyphWords'/g' src/app/components/input-types/$hyphWords/index.ts
+
+cp input-comp-template/model.ts src/app/_models/input-types/$hyphWords.ts
+perl -pi -e 's/!!capWords!!/'$capWords'/g' src/app/_models/input-types/$hyphWords.ts
+perl -pi -e 's/!!hyphWords!!/'$hyphWords'/g' src/app/_models/input-types/$hyphWords.ts
+perl -pi -e 's/!!type!!/'$inputType'/g' src/app/_models/input-types/$hyphWords.ts
+
+
+echo "export * from './"$hyphWords"';" >> src/app/components/input-types/index.ts
+echo "export * from './"$hyphWords"';" >> src/app/_models/input-types/index.ts
+
+sed -i '$ d' src/app/_services/get-input-types.service.ts
+echo "{'key':'"$hyphWords"','label':'"$compDesc"'}," >> src/app/_services/get-input-types.service.ts
+echo "]}}" >> src/app/_services/get-input-types.service.ts
+
+sed -i '$ d' src/app/_services/form-group-service.service.ts
+echo "case '"$hyphWords"':{return new inputTypes."$capWords"(question);}" >> src/app/_services/form-group-service.service.ts
+echo "default: {return new inputTypes.Input(question);}}}}" >> src/app/_services/form-group-service.service.ts
+
+sed -i '$ d' src/app/components/input-types/view-input-type/view-input-type.component.html
+echo "<view-"$hyphWords" *ngIf="'"'"questionGroup.value.type === '"$hyphWords"'"'"'" [group]="'"'"questionGroup"'"'" [disabled]="'"'"disabled"'"'" [cleared]="'"'"cleared"'"'" [index]="'"'"index"'"'"></view-"$hyphWords">" >> src/app/components/input-types/view-input-type/view-input-type.component.html
+echo "</div></div></ng-template></div>" >> src/app/components/input-types/view-input-type/view-input-type.component.html
+
+sed -i '$ d' src/app/components/input-types/edit-input-type/edit-input-type.component.html
+echo "<edit-"$hyphWords" *ngIf="'"'"questionGroup.value.type === '"$hyphWords"'"'"'" [group]="'"'"questionGroup"'"'"></edit-"$hyphWords">" >> src/app/components/input-types/edit-input-type/edit-input-type.component.html
+echo "</div>" >> src/app/components/input-types/edit-input-type/edit-input-type.component.html

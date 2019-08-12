@@ -1,0 +1,37 @@
+<mat-card *ngIf="formGroup" [formGroup]="formGroup" mat-dialog-content>
+  <mat-card-title>
+    <mat-toolbar
+      >{{ formGroup.getRawValue().name }}<span id="subtitle" *ngIf="formGroup.getRawValue().description"> - {{ formGroup.getRawValue().description }}</span></mat-toolbar
+    >
+  </mat-card-title>
+
+  <mat-card-content>
+    <app-view-form
+      [previewMode]="previewMode"
+      [formGroupCtx]="formGroup"
+      [formGroup]="formGroup"
+      [disabled]="true"
+      [cleared]="false"
+      [cardView]="cardViewRef"
+      [showNotes]="false"
+      [clientID]="clientID"
+    ></app-view-form>
+  </mat-card-content>
+</mat-card>
+
+<div mat-dialog-actions>
+  <div fxFlex="75">
+    <div fxLayout="row" fxLayoutWrap>
+      <div fxFlex="nogrow" *ngFor="let key of keys">
+        <button class="pad-button" mat-raised-button>
+          {{ key.key }} <button class="remove-button" mat-button (click)="removeKey(key.key)"><mat-icon>close</mat-icon></button>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div fxFlex></div>
+  <div fxFlexAlign="end">
+    <button mat-raised-button color="primary" (click)="onNoClick()">Done</button>
+  </div>
+</div>

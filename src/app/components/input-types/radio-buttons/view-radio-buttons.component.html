@@ -1,0 +1,88 @@
+<div class="wrapper" fxLayout="row" *ngIf="questionGroup" [formGroup]="questionGroup">
+  <div fxFlex>
+    <div *ngIf="questionGroup.value.orientation === 'horizontal'; then horizontal; else vertical"></div>
+  </div>
+
+  <ng-template #horizontal>
+    <mat-radio-group formControlName="input">
+      <div *ngIf="questionGroup.value.specifyPosition === 'right'" fxLayout="row wrap">
+        <div *ngFor="let opt of questionGroup.controls.options.controls; let i = index" fxFlex="nogrow">
+          <div fxLayout="row wrap">
+            <div fxFlex="{{ opt.value.labelWidth }}" fxFlexAlign="{{ opt.value.specify ? 'top' : 'center' }}">
+              <mat-radio-button value="{{ opt.value.key }}" class="buttonSpacing" (click)="setQG(); toggleSpecifyValues(opt)">{{ opt.value.value }}</mat-radio-button>
+            </div>
+
+            <div *ngIf="questionGroup.value.inorout === 'in' && showSpecifyInput(questionGroup, opt)" fxFlex fxFlexAlign="top">
+              <div>
+                <app-view-row
+                  [moveup]="'moveup'"
+                  [disabledNotes]="disabledNotes"
+                  [disabled]="disabled"
+                  [group]="row"
+                  *ngFor="let row of opt['controls']['rows']['controls']; let j = index"
+                  [index]="getIndex(i, j)"
+                ></app-view-row>
+              </div>
+              <!-- <div *ngIf="questionGroup.value.input !== opt.value.key && questionGroup.value.inorout === 'in'">
+              <app-view-row [moveup]="'moveup'" [disabled]="true" [group]="row" *ngFor="let row of opt['controls']['rows']['controls'];let j=index" [index]="getIndex(i,j)"></app-view-row>
+            </div> -->
+            </div>
+          </div>
+        </div>
+
+        <div fxFlex="nogrow" *ngFor="let opt of questionGroup.controls.options.controls; let i = index">
+          <div fxLayout="row wrap">
+            <div *ngIf="questionGroup.value.inorout === 'out' && showSpecifyInput(questionGroup, opt)" fxFlex fxFlexAlign="top">
+              <div>
+                <app-view-row [moveup]="'moveup'" [disabled]="disabled" [group]="row" *ngFor="let row of opt['controls']['rows']['controls']; let j = index" [index]="getIndex(i, j)"></app-view-row>
+              </div>
+              <!-- <div *ngIf="questionGroup.getRawValue().input !== opt.value.key && questionGroup.value.inorout === 'out'">
+                <app-view-row [moveup]="'moveup'" [disabled]="true" [group]="row" *ngFor="let row of opt['controls']['rows']['controls']; let j = index" [index]="getIndex(i, j)"></app-view-row>
+              </div> -->
+            </div>
+          </div>
+        </div>
+        <button mat-button (click)="clearSelected()" class="clear-selected" color="warn" [disabled]="disabled">Clear</button>
+      </div>
+
+      <div *ngIf="questionGroup.value.specifyPosition === 'below'" fxLayout="column">
+        <div fxFlex>
+          <div fxLayout="row wrap">
+            <div fxFlex="{{ questionGroup.value.offset }}"></div>
+            <mat-radio-button
+              class="buttonSpacing"
+              *ngFor="let opt of questionGroup.controls.options.controls; let i = index"
+              (click)="setQG()"
+              fxFlexAlign="top"
+              value="{{ opt.value.key }}"
+              fxFlex="nogrow"
+              >{{ opt.value.value }}</mat-radio-button
+            >
+          </div>
+          <br />
+          <div *ngFor="let opt of questionGroup.controls.options.controls; let i = index" fxFlex>
+            <div *ngIf="showSpecifyInput(questionGroup, opt)" fxLayout="row">
+              <div fxFlex="{{ questionGroup.value.offset }}"></div>
+              <div fxFlex>
+                <app-view-row [moveup]="'moveup'" [disabled]="disabled" [group]="row" *ngFor="let row of opt['controls']['rows']['controls']; let j = index" [index]="getIndex(i, j)"></app-view-row>
+              </div>
+              <!-- <div *ngIf="questionGroup.getRawValue().input !== opt.value.key" fxFlex>
+                <app-view-row
+                  [moveup]="'moveup'"
+                  class="checkboxHeight"
+                  [disabled]="true"
+                  [group]="row"
+                  *ngFor="let row of opt['controls']['rows']['controls']; let j = index"
+                  [index]="getIndex(i, j)"
+                ></app-view-row>
+              </div> -->
+            </div>
+          </div>
+        </div>
+        <button mat-button (click)="clearSelected()" class="clear-selected" color="warn" [disabled]="disabled">Clear</button>
+      </div>
+    </mat-radio-group>
+  </ng-template>
+
+  <ng-template #vertical>Vertical radio-buttons do not work yet</ng-template>
+</div>

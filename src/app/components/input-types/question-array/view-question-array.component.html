@@ -1,0 +1,26 @@
+<div class="wrapper" fxLayout="column" fxLayoutGap="10px">
+  <div fxflex *ngFor="let item of questionGroup['controls']['input']['controls'];let i=index">
+    <div fxLayout="row">
+      <div fxFlex="95%">
+        <div fxLayout="row" fxLayoutGap="1%" *ngFor="let row of item.controls['rows'].controls;let j=index">
+
+          <div fxFlex>
+            <app-view-row [group]="row" [disabledNotes]="disabledNotes" [disabled]="disabled" [index]="getIndex(i,j)"></app-view-row>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- <div fxFlex fxFlexAlign="center" *ngIf="questionGroup.value.removable"> -->
+
+        <button mat-icon-button class="close" matTooltip="Remove" [matTooltipPosition]="'right'" (click)="removeItem(i)" [disabled]="disabled"><mat-icon>clear</mat-icon></button>
+      <!-- </div> -->
+
+    </div>
+
+
+  </div>
+  <div fxFlex>
+    <button mat-button (click)="addItem()" [disabled]="disabled">{{questionGroup.value.addButtonText || "Add"}}</button>
+  </div>
+</div>

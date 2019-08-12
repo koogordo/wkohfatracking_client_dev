@@ -1,0 +1,57 @@
+<mat-card [formGroup]="columnGroup" *ngIf="columnGroup">
+  <mat-card-content fxLayout="column">
+
+    <mat-form-field fxFlex>
+      <input matInput placeholder="Column Width" formControlName="width" type="text" onClick="this.select();">
+    </mat-form-field>
+
+    <mat-form-field fxFlex>
+      <input matInput placeholder="Offset" formControlName="offset" type="text" onClick="this.select();">
+    </mat-form-field>
+
+    <mat-form-field fxFlex>
+      <input matInput placeholder="Align" formControlName="align" type="text" onClick="this.select();">
+    </mat-form-field>
+
+
+    <!-- < mat-accordion> multi="true"> -->
+
+      <ng-container *ngFor="let question of columnGroup.controls.questions.controls; let i = index">
+       <!-- <mat-expansion-panel-header> -->
+          <!-- <mat-panel-title> -->
+            <p>{{question.value.name}}: {{question.value.type}}</p>
+          <!-- </mat-panel-title>
+
+          <mat-panel-description> -->
+
+            <p>{{question.value.description}}</p>
+
+          <!-- </mat-panel-description> -->
+          <button mat-button class="close" matTooltip="Remove Question" [matTooltipPosition]="'right'" (click)="confirmDialogue('delete', 'Delete Question', 'Are you sure you want to delete?', i)" [disabled]="columnGroup.controls.questions.controls.length <= 1"><mat-icon>close</mat-icon></button>
+
+        <!-- </mat-expansion-panel-header> -->
+
+
+          <app-edit-input-type [group]="question" [columnGroup]="columnGroup" [questionIndex]="i" ></app-edit-input-type>  
+
+
+          </ng-container>
+
+   <!-- mat-accordion> -->
+
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button (click)="confirmDialogue('addTextbox', 'Add Textbox', 'Add new textbox question?')">Add New Question</button>
+
+    <button mat-button (click)="confirmDialogue('addNumber', 'Add Number Question', 'Add new number question?')">Add Number Question</button>
+    <button mat-button (click)="confirmDialogue('addCheckboxes', 'Add Checkboxes', 'Add new checkboxes?')">Add Checkboxes Question</button>
+    <button mat-button (click)="confirmDialogue('addRadioButtons', 'Add Radio Buttons', 'Add new radio buttons?')">Add Radio-buttons Question</button>
+    <button mat-button (click)="confirmDialogue('addDropdown', 'Add Dropdown', 'Add new dropdown question?')">Add Dropdown Question</button>
+    <button mat-button (click)="confirmDialogue('addGroup', 'Add Question Group', 'Add new question group?')">Add Question Group Question</button>
+    <button mat-button (click)="confirmDialogue('addFunction', 'Add Function', 'Add new function question?')">Add Function Question</button>
+    <button mat-button (click)="confirmDialogue('addTime', 'Add Time Question', 'Add new time question?')">Add Time Question</button>
+    <button mat-button (click)="confirmDialogue('addDate', 'Add Date Question', 'Add new date question?')">Add Date Question</button>
+    <button mat-button (click)="confirmDialogue('addArray', 'Add Question Array', 'Add new question array?')">Add Question Array Question</button>
+
+  </mat-card-actions>
+</mat-card>

@@ -1,0 +1,45 @@
+<div fxLayout="row">
+  <div fxFlex></div>
+  <mat-card id="login" fxFlex="500px" fxFlexAlign="center">
+    <mat-card-title>Login</mat-card-title>
+    <mat-card-content *ngIf="!loading">
+      <form [formGroup]="loginFG" (keyup.Enter)="loginFG.invalid? '':initLogin($event)">
+        <input style="display:none" type="text" name="fakeusernameremembered"/>
+        <input style="display:none" type="password" name="fakepasswordremembered"/>
+        <div fxLayout="column">
+          <div fxLayout="row">
+            <mat-form-field fxFlex>
+              <input matInput placeholder="Username" type="text" formControlName="username" />
+            </mat-form-field>
+          </div>
+          <div fxLayout="row">
+            <mat-form-field fxFlex>
+              <input matInput id="{{type}}" type="text" placeholder="Password" formControlName="password" required autocomplete="off" />
+              <button mat-button matSuffix mat-icon-button aria-label="Clear" type="button" (click)="type=(type==='password')?'text':'password'">
+                <fa name="eye"></fa>
+              </button>
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+    <mat-card-actions *ngIf="!loading">
+      <div fxLayout="row">
+        <div fxFlex="nogrow" *ngIf="loginError" class="login-error">{{loginError}}</div>
+        <div fxFlex></div>
+        <button mat-raised-button color="primary" [disabled]="loginFG.invalid" (click)="initLogin($event)">Login</button>
+      </div>
+
+    </mat-card-actions>
+
+    <mat-card-content *ngIf="loading">
+      <mat-spinner></mat-spinner>
+    </mat-card-content>
+
+
+  </mat-card>
+  <div fxFlex></div>
+</div>
+
+
+

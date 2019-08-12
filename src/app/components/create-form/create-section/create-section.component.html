@@ -1,0 +1,71 @@
+<div  fxLayout="row" fxLayoutGap="48px" fxLayoutWrap>
+  <div fxFlex="50" fxFlexOffset="24px" [formGroup]="sectionGroup">
+    <div fxLayout="column">
+      <mat-form-field fxFlex>
+        <input matInput placeholder="Section Name" formControlName="name" type="text" onClick="this.select();">
+      </mat-form-field>
+
+      <div fxFill></div>
+
+      <mat-form-field fxFlex>
+        <textarea matInput placeholder="Section Description" formControlName="description"></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div fxFlex="50">
+
+    <p>Edit Rows:</p>
+    <div fxLayout="column" fxLayoutGap="12px">
+      <div fxFlex *ngFor="let row of sectionGroup.value.rows; let i=index">
+        <div fxLayout="row" fxLayoutGap="12px" >
+          <div fxFlex="none">
+            <button mat-raised-button (click)="openRow(i)" >
+
+              <div fxLayout="row" fxLayoutGap="5%">
+
+
+
+                <div fxFlex="none" fxFlexAlign="center">
+                  <p align="left">Row {{i+1}}:</p>
+                </div>
+                <div fxFlex="65%">
+                  <div fxLayout="row" fxLayoutWrap>
+                    <mat-list dense *ngFor="let column of row.columns; let j=index" fxFlex>
+                      <h5 matSubheader>Column {{j+1}}:</h5>
+                      <mat-list-item *ngFor="let question of column.questions">
+                        {{question.key}}
+                      </mat-list-item>
+                    </mat-list>
+                  </div>
+
+
+                </div>
+
+
+              </div>
+
+
+
+            </button>
+          </div>
+
+          <button mat-button class="close" matTooltip="Remove Row" [matTooltipPosition]="'right'" fxFlex="none" fxFlexAlign="center" *ngIf="sectionGroup.value.rows.length > 1" (click)="removeRow(i)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+
+      </div>
+
+      <div fxFlex>
+        <button mat-raised-button (click)="addRow()">
+          <mat-icon>add</mat-icon>
+          Add Row
+        </button>
+      </div>
+      <br>
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,52 @@
+<mat-card [formGroup]="tabGroup">
+
+  <mat-card-title>
+
+   <!-- <mat-accordion> -->
+
+      <!-- <mat-expansion-panel> -->
+
+        <!-- <mat-expansion-panel-header> -->
+          <!-- <mat-panel-title> -->
+            <p *ngIf="tabGroup.value.name || tabGroup.value.description">Tab: {{tabGroup.value.name}}</p>
+            <p *ngIf="!tabGroup.value.name && !tabGroup.value.description">Tab: (Nameless Tab - Click to name)</p>
+          <!-- </mat-panel-title> -->
+          <!-- <mat-panel-description> -->
+            <p>{{tabGroup.value.description}}</p>
+          <!-- </mat-panel-description>
+        </mat-expansion-panel-header> -->
+
+        <div fxLayout="column">
+
+          <mat-form-field fxFlex>
+            <input matInput placeholder="Tab Name" formControlName="name" type="text" onClick="this.select();">
+          </mat-form-field>
+
+          <mat-form-field fxFlex>
+            <textarea matInput placeholder="Tab Description" formControlName="description"></textarea>
+          </mat-form-field>
+
+        </div>
+
+      <!-- </mat-expansion-panel> -->
+
+    <!-- mat-accordion> -->
+
+  </mat-card-title>
+
+  <mat-card-content fxLayout="column">
+
+    <div fxFlex *ngFor="let section of tabGroup['controls']['sections']['controls']; let i=index">
+
+      <button matTooltip="Remove Section" mat-button class="close" [disabled]="tabGroup['controls']['sections']['controls'].length <= 1" (click)="confirmDialogue('delete', 'Delete Section', 'Are you sure you want to delete?', i)"><mat-icon>close</mat-icon>
+      </button>
+
+           <app-edit-section [group]="section" [index]="index + ',sections,'+i"></app-edit-section> 
+
+      <br>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button (click)="confirmDialogue('add', 'Add Section', 'Add new section?')">Add New Section</button>
+  </mat-card-actions>
+</mat-card>

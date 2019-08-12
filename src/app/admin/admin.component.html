@@ -1,0 +1,51 @@
+<mat-card *ngIf="queuedForms">
+  <mat-card-content>
+    <div fxLayout="row">
+      <div fxFlex="70" class="mat-elevation-z1">
+        <mat-toolbar>Submitted Forms</mat-toolbar>
+        <mat-table #table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" matSortDisableClear="true">
+
+          <ng-container matColumnDef="os">
+            <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="20%"> OS ID </mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="20%"> {{element.form.os}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="client">
+            <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="20%"> Client ID </mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="20%"> {{element.form.client[0]}} {{element.form.client[1]}} {{element.form.client[2]}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="20%"> Form Name </mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="20%"> {{element.form.name}} </mat-cell>
+          </ng-container>
+
+
+          <ng-container matColumnDef="dateSubmitted">
+            <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="20%"> Date Submitted </mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="20%"> {{element.form.dateSubmitted}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="visitDate">
+            <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="20%"> Visit Date </mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="20%"> {{element.form.visitDate}} </mat-cell>
+          </ng-container>
+
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClicked(row)"></mat-row>
+        </mat-table>
+      </div>
+      <div fxFlex fxFlexOffset="5">
+        <!-- <mat-form-field>
+          <mat-select placeholder="Filter By Client" (selectionChange)="applyClientFilter($event.value)">
+            <mat-option [value]="0">Show All</mat-option>
+            <mat-option [value]="client.clientID" *ngFor="let client of clients">{{client.clientID+" - "+client.clientFName + " " + client.clientLName}}</mat-option>
+          </mat-select>
+        </mat-form-field> -->
+      </div>
+    </div>
+
+
+  </mat-card-content>
+</mat-card>

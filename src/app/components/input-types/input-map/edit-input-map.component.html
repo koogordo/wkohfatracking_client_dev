@@ -1,0 +1,145 @@
+<div fxLayout="column" [formGroup]="questionGroup">
+  <mat-form-field fxFlex>
+    <mat-select placeholder="Function" formControlName="function">
+      <mat-option [value]="'prevValue'">
+        Previous Value
+      </mat-option>
+      <mat-option [value]="'add'">
+        Add
+      </mat-option>
+      <mat-option [value]="'adequatePrenat'">
+        Adequate Prenatal Care
+      </mat-option>
+      <mat-option [value]="'age'">
+        Age Calculation
+      </mat-option>
+      <mat-option [value]="'bmi'">
+        BMI Calculation
+      </mat-option>
+      <mat-option [value]="'bmiChange'">
+        BMI Change
+      </mat-option>
+      <mat-option [value]="'clientScore'">
+        Client Score
+      </mat-option>
+      <mat-option [value]="'diffValue'">
+        Different Value
+      </mat-option>
+      <mat-option [value]="'gestAge'">
+        Gestational Age
+      </mat-option>
+      <mat-option [value]="'heightChange'">
+        Height Difference
+      </mat-option>
+      <mat-option [value]="'income'">
+        Income
+      </mat-option>
+      <mat-option [value]="'medHome'">
+        Medical Home
+      </mat-option>
+      <mat-option [value]="'timeDuration'">
+        Time Duration
+      </mat-option>
+      <mat-option [value]="'trimester'">
+        Trimester
+      </mat-option>
+      <mat-option [value]="'volHours'">
+        Volunteer Hours
+      </mat-option>
+      <mat-option [value]="'weightChange'">
+        Weight Difference
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <ng-template #select let-indexName="indexName" let-buttonText="buttonText" let-num="num">
+    <div fxLayout="row" fxLayoutGap="20px">
+      <div fxFlex="nogrow" >
+        <button mat-raised-button (click)="addIndices(indexName,num)">{{buttonText}}</button>
+      </div>
+      <div fxFlex="nogrow" fxFlexAlign="center" *ngFor="let index of questionGroup.value.indices[indexName]">
+        <p>{{index.key}}</p>
+      </div>
+    </div>
+  </ng-template>
+
+  <div fxFlex *ngIf="questionGroup.value.function === 'prevValue'">
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'prevIndex',buttonText:'Select Index', num:1}"></ng-container>
+  </div>
+
+  <div fxFlex *ngIf="questionGroup.value.function === 'age'">
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'dob',buttonText:'Select DOB', num:1}"></ng-container>
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'visitDate',buttonText:'Select Visit Date', num:1}"></ng-container>
+  </div>
+
+  <div fxFlex *ngIf="questionGroup.value.function === 'clientScore'">
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'clientLevel',buttonText:'Select Client Level', num:1}"></ng-container>
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'osDefCOPoints',buttonText:'Select OS Defined CO Points', num:1}"></ng-container>
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'osDefTRPoints',buttonText:'Select OS Defined TR Points', num:1}"></ng-container>
+  </div>
+
+  <div fxFlex *ngIf="questionGroup.value.function === 'diffValue'">
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'existingValue',buttonText:'Select Existing Value', num:1}"></ng-container>
+  </div>
+    
+  <div fxFlex *ngIf="questionGroup.value.function === 'gestAge'">
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'dueDate',buttonText:'Select Due Date', num:1}"></ng-container>
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'visitDate',buttonText:'Select Visit Date', num:1}"></ng-container>
+  </div>
+
+  <div fxFlex *ngIf="questionGroup.value.function === 'trimester'">
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'dueDate',buttonText:'Select Due Date', num:1}"></ng-container>
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'visitDate',buttonText:'Select Visit Date', num:1}"></ng-container>
+  </div>
+
+  <div fxFlex *ngIf="questionGroup.value.function === 'timeDuration'">
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'timeStart',buttonText:'Select Start Time', num:1}"></ng-container>
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'timeEnd',buttonText:'Select End Time', num:1}"></ng-container>
+  </div>
+
+  <div fxFlex *ngIf="questionGroup.value.function === 'bmi'">
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'bmiHeightFt',buttonText:'Select Height (ft)', num:1}"></ng-container>
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'bmiHeightIn',buttonText:'Select Height (in)', num:1}"></ng-container>
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'bmiWeightLb',buttonText:'Select Weight (lb)', num:1}"></ng-container>
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'bmiWeightOz',buttonText:'Select Weight (oz)', num:1}"></ng-container>
+  </div>
+
+  <div fxFlex *ngIf="questionGroup.value.function === 'volHours'">
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'currentVolHours',buttonText:'Select New Volunteer Hours', num:1}"></ng-container>
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'prevTotal',buttonText:'Select Previous Total', num:1}"></ng-container>
+  </div>
+
+  <div fxFlex *ngIf="questionGroup.value.function === 'weightChange'">
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'curWeightLb',buttonText:'Select Cur. Weight (lb)', num:1}"></ng-container>
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'curWeightOz',buttonText:'Select Cur. Weight (oz)', num:1}"></ng-container>
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'prevWeightLb',buttonText:'Select Prev. Weight (lb)', num:1}"></ng-container>
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'prevWeightOz',buttonText:'Select Prev Weight (oz)', num:1}"></ng-container>
+  </div>
+
+  <div fxFlex *ngIf="questionGroup.value.function === 'heightChange'">
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'curHeightFt',buttonText:'Select Cur. Height (ft)', num:1}"></ng-container>
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'curHeightIn',buttonText:'Select Cur. Height (in)', num:1}"></ng-container>
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'prevHeightFt',buttonText:'Select Prev. Height (ft)', num:1}"></ng-container>
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'prevHeightIn',buttonText:'Select Prev Height (in)', num:1}"></ng-container>
+  </div>
+
+  <div fxFlex *ngIf="questionGroup.value.function === 'bmiChange'">
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'curBMI',buttonText:'Select Cur. BMI', num:1}"></ng-container>
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'prevBMI',buttonText:'Select Prev. BMI', num:1}"></ng-container>
+  </div>
+
+  <div fxFlex *ngIf="questionGroup.value.function === 'medHome'">
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'medHome',buttonText:'Select the 5 Questions', num:5}"></ng-container>
+  </div>
+
+  <div fxFlex *ngIf="questionGroup.value.function === 'adequatePrenat'">
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'gestWeek',buttonText:'Select Gest. Age Started', num:1}"></ng-container>
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'prenatVisits',buttonText:'Select Num Prenat Visits', num:1}"></ng-container>
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'curGestWeek',buttonText:'Select Num Cur Gest Week', num:1}"></ng-container>
+  </div>
+
+  <div fxFlex *ngIf="questionGroup.value.function === 'add'">
+    <ng-container *ngTemplateOutlet="select; context:{indexName:'add',buttonText:'Select up to 10 Questions (w/ number values)', num:10}"></ng-container>
+  </div>
+
+</div>

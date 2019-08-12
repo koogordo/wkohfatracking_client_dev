@@ -1,0 +1,25 @@
+<hr />
+<button mat-icon-button (click)="saveAsPdf()" style="float: right;"><mat-icon>print</mat-icon></button>
+<section [id]="sectionID" style="padding: 10px;">
+  <div class="sectionSpacing" *ngIf="sectionGroup">
+    <h4 *ngIf="sectionGroup.value.name">
+      {{ sectionGroup.value.name }}
+    </h4>
+    <h5 *ngIf="sectionGroup.value.description">
+      {{ sectionGroup.value.description }}
+    </h5>
+    <div fxLayout="column">
+      <app-view-row
+        *ngFor="let row of sectionGroup.controls.rows.controls; let i = index"
+        [group]="row"
+        [disabled]="disabled"
+        [disabledNotes]="disabledNotes"
+        [cleared]="cleared"
+        [index]="getIndex(i)"
+        [previewMode]="previewMode"
+        [formGroupCtx]="formGroupCtx"
+        [client]="client"
+      ></app-view-row>
+    </div>
+  </div>
+</section>
