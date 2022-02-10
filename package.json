@@ -64,7 +64,7 @@
     "ng2-currency-mask": "^5.3.1",
     "ngx-cookie-service": "^2.1.0",
     "node-gyp": "^3.8.0",
-    "node-sass": "^4.9.4",
+    "node-sass": "^7.0.0",
     "pbkdf2": "^3.0.17",
     "pouchdb": "^7.0.0",
     "pouchdb-authentication": "^1.1.3",
